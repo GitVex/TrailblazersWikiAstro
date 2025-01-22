@@ -1,0 +1,72 @@
+---
+const {frontmatter} = Astro.props;
+---
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>{frontmatter.title}</title>
+</head>
+<body>
+<div id="baselayout" class="grid grid-cols-[20%_60%_20%] grid-rows-[180px_minmax(900px,_1fr)]">
+    <div/>
+    <nav/>
+    <div/>
+    <div/>
+    <section class="px-10 border-gray-500 border-opacity-20 border-x-4 mb-20">
+        <h1>{frontmatter.title}</h1>
+        <slot/>
+    </section>
+    <div/>
+</div>
+
+
+<style>
+    :global(h1) {
+        font-size: 2rem;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    :global(blockquote) {
+        margin-top: .1rem;
+        margin-bottom: .1rem;
+        padding: .1rem .3rem .1rem 1rem;
+        background-color: rgba(26, 26, 26, 0.37);
+        border-left: 4px solid #6e28e6;
+    }
+
+    :global(p) {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    :global(img) {
+        max-width: 100%;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    :global(.internal) {
+        color: #8a47fd;
+    }
+
+    :global(hr) {
+        border: 0;
+        height: 2px;
+        background-image: linear-gradient(to right, rgba(51, 51, 51, 0), #8a47fd, rgba(51, 51, 51, 0));
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    #baselayout {
+        /* Gradient from bottom left to top right, with colors from #00041B to #000000 to #13001E */
+        background: linear-gradient(-135deg, #00020F, #000000, #0A000F);
+        color: #eef5ff
+
+    }
+</style>
+</body>
+
+</html>
