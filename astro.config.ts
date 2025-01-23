@@ -10,6 +10,15 @@ import wikiLinkPlugin from 'remark-wiki-link'
 export default defineConfig({
     integrations: [tailwind()],
     markdown: {
-        remarkPlugins: [setDefaultLayout, remarkGfm, [wikiLinkPlugin, {aliasDivider: '|'}]],
+        remarkPlugins: [
+            setDefaultLayout,
+            remarkGfm,
+            [wikiLinkPlugin, {
+                aliasDivider: '|',
+                hrefTemplate: (permalink: string) => `/${permalink}`,
+                pageResolver: (name: string) => [name]
+            }]],
     }
 });
+
+// wiki links docs : https://github.com/landakram/remark-wiki-link
