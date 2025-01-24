@@ -9,8 +9,10 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/preact": "^4.0.3",
     "@astrojs/tailwind": "^5.1.5",
     "astro": "^5.1.8",
+    "preact": "^10.25.4",
     "remark-gfm": "^4.0.0",
     "remark-wiki-link": "^2.0.1",
     "tailwindcss": "^3.4.17"

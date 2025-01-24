@@ -1,0 +1,39 @@
+---
+import {getCollection, render} from "astro:content";
+import type {CollectionEntry} from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+    // Define the collection you are creating pages for
+    const allContent = await getCollection("content");
+
+
+    return allContent.map((content) => {
+
+        console.log(content)
+
+        return {
+            params: {slug: content.id},
+            //
+            props: {content},
+        };
+    });
+}
+
+const {content} = Astro.props as { content: CollectionEntry<"content"> };
+
+const renderResult = await render(content)
+const Rendered = renderResult.Content
+const frontmatter = {
+    // @ts-ignore
+    ...content.rendered?.metadata?.frontmatter,
+    title: content.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+}
+---
+
+<main>
+    <BaseLayout frontmatter={{ frontmatter }}>
+        <Rendered/>
+    </BaseLayout>
+    <a href="/">Back to the Index</a>
+</main>

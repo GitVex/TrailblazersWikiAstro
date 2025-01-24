@@ -1,12 +1,16 @@
 ---
-const {frontmatter} = Astro.props;
+const {frontmatter: metadata} = Astro.props;
+
+console.log("\n Frontmatter:", metadata.frontmatter)
+
+const title = metadata.frontmatter.title ?? "T'is should be a title";
 ---
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
-    <title>{frontmatter.title}</title>
+    <title>{title}</title>
 </head>
 <body id="baselayout">
 <div class="grid grid-cols-[25%_50%_25%] grid-rows-[180px_minmax(900px,_1fr)]">
@@ -15,7 +19,7 @@ const {frontmatter} = Astro.props;
     <div/>
     <div/>
     <section class="px-10 border-[#585858] border-opacity-20 border-x-4 mb-20">
-        <h1>{frontmatter.title}</h1>
+        <h1 style="color: #ffb022; font-size: 2.5rem">{title}</h1>
         <slot/>
     </section>
     <div/>
@@ -81,22 +85,22 @@ const {frontmatter} = Astro.props;
 
     :global(th),
     :global(td) {
-        border: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
+        border: 1px solid rgba(255, 255, 255, 0.75); /* Light border */
         padding: 0.4rem;
         text-align: left;
     }
 
     :global(th) {
-        background-color: rgba(255, 255, 255, 0.1); /* Subtle background for headers */
+        background-color: rgba(255, 255, 255, 0.6); /* Subtle background for headers */
         font-weight: bold;
     }
 
     :global(tr:nth-child(even)) {
-        background-color: rgba(255, 255, 255, 0.05); /* Zebra striping */
+        background-color: rgba(255, 255, 255, 0.5); /* Zebra striping */
     }
 
     :global(tr:hover) {
-        background-color: rgba(255, 255, 255, 0.1); /* Highlight on hover */
+        background-color: rgba(255, 255, 255, 0.8); /* Highlight on hover */
         transition: background-color 0.3s ease;
     }
 
@@ -108,5 +112,4 @@ const {frontmatter} = Astro.props;
     }
 </style>
 </body>
-
 </html>
