@@ -9,9 +9,6 @@ export async function getStaticPaths() {
 
 
     return allContent.map((content) => {
-
-        console.log(content)
-
         return {
             params: {slug: content.id},
             //
@@ -32,8 +29,7 @@ const frontmatter = {
 ---
 
 <main>
-    <BaseLayout frontmatter={{ frontmatter }}>
+    <BaseLayout frontmatter={{frontmatter}}>
         <Rendered/>
     </BaseLayout>
-    <a href="/">Back to the Index</a>
 </main>

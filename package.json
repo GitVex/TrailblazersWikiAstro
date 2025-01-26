@@ -3,18 +3,22 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "generate-noise": "npx tsx scripts/noise.ts",
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "generate-noise &&  astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/preact": "^4.0.3",
     "@astrojs/tailwind": "^5.1.5",
+    "@types/node": "^22.10.10",
     "astro": "^5.1.8",
+    "canvas": "^3.1.0",
     "preact": "^10.25.4",
     "remark-gfm": "^4.0.0",
     "remark-wiki-link": "^2.0.1",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.2"
   }
 }
