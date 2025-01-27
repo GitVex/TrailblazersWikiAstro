@@ -1,0 +1,76 @@
+---
+import './styles/Explorer.scss'
+import {getCollection} from "astro:content";
+import {filePathToRoute, filePathToSlug, slugToFileName} from "../../plugins/dynamicWikiLinks";
+
+/** Converts file paths into a nested tree object. */
+function buildTree(files) {
+    const tree = {};
+
+    files.forEach(file => {
+        const slug = filePathToRoute(file.filePath).concat(filePathToSlug(file.filePath));
+        // Example path might be "categoryA/post1.md"
+        const parts = slug.split("/");
+        let current = tree;
+
+        for (let i = 0; i < parts.length; i++) {
+            const isFile = i === parts.length - 1;
+            const part = parts[i];
+
+            if (!current[part]) {
+                current[part] = isFile ? [] : {};
+            }
+            current = current[part];
+        }
+    });
+
+    return tree;
+}
+
+/** Renders the nested tree as HTML lists. */
+function renderTree(tree, path = "") {
+    return Object.entries(tree).map(([key, value]) => {
+        if (Array.isArray(value)) {
+            // key is a "file" in the final segment
+            // Link to the actual page, e.g., `/blog/<full-slug>`
+            const fullSlug = `${path}/${key}`.replace(/^\/+/, "");
+            return `<li class="file-label" ><a href="/${fullSlug}">${slugToFileName(key)}</a></li>`;
+        } else {
+            // key is a folder
+            return `
+        <li class="folder-item">
+          <p class="folder-label">${key.charAt(0).toUpperCase() + String(key).slice(1)}</p>
+          <ul>
+            ${renderTree(value, path + "/" + key).join("")}
+          </ul>
+        </li>
+      `;
+        }
+    });
+}
+
+
+const allFiles = await getCollection("content");
+const tree = buildTree(allFiles);
+const renderedTree = renderTree(tree)
+---
+
+<html>
+<head>
+    <title>Markdown Tree Explorer</title>
+</head>
+<body>
+<div class="explorer">
+    <nav>
+        <!--<h1 style="color: #ffb022; font-size: 2rem; margin-bottom: .5rem">Explorer</h1>-->
+        <ul>
+            <Fragment set:html={renderedTree}/>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>
+
+<style>
+
+</style>

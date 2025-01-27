@@ -1,0 +1,1 @@
+Supplies a number of ship systems and sensors to mostly the military sector of all factions in the Outer Rim. Officially they can only supply civilian systems to Lanternyard, as they are also based in the UPoS, but what goes on unofficially is only privy to LY corporates.

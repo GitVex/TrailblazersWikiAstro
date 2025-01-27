@@ -1,0 +1,1 @@
+While publicly focused on secure civilian/military networks, Zenith is rumored to have a covert division that gathers intelligence on political and corporate movements across factions, even on LY's own.

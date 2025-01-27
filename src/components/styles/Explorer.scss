@@ -1,0 +1,37 @@
+// Explorer.scss
+
+.explorer {
+  color: #eef5ff;
+  background: url("/noise.png") repeat, #040404;
+  background-blend-mode: soft-light;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 0.2rem;
+  }
+}
+
+.folder-item {
+  ul {
+    margin-left: 1rem;
+  }
+
+  border-left: 1px rgba(89, 89, 89, 0.3);
+  border-style: solid;
+}
+
+.folder-label, .file-label {
+  margin: 0;
+  padding: 0.2rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: rgba(89, 89, 89, 0.2);
+  }
+}

@@ -22,23 +22,30 @@ function getAllMarkdownFiles(dir: string): string[] {
  * For example, `src/content/Folder/My File.md` => `my-file`.
  * You can customize this logic to match your real desired slug rules.
  */
-function filePathToSlug(filePath: string) {
+export function filePathToSlug(filePath: string) {
     const base = path.basename(filePath, path.extname(filePath)); // "My File"
     return base.replace(/\s+/g, '-').toLowerCase(); // "my-file"
 }
 
+export function slugToFileName(slug: string) {
+    return slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+}
+
 /**
- * From a file path, generate the actual URL that your site should link to.
+ * From a file path, generate the folder that the file should be part of.
  * For example:
- *   src/content/Folder/My File.md => /content/Folder/My-File
- * Again, adjust to match your site’s actual route structure.
+ *   src/content/Folder/My File.md => /content/Folder/
  */
-function filePathToRoute(filePath: string) {
+export function filePathToRoute(filePath: string) {
     // Get the relative path under "src/content"
     const relative = path.relative(path.join(process.cwd(), 'src/content'), filePath);
     // Folder\\My File.md
     // remove filename
-    const folder = path.dirname(relative);
+    const folder = path.dirname(relative) === '.' ? '' : path.dirname(relative).concat('/');
+    // normalize // slashes
+    folder.replace('//', '/')
+    // normalize \\ slashes
+    folder.replace('\\\\', '/')
 
     // e.g. "Folder/my-file"
     // build your route:

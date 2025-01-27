@@ -1,4 +1,6 @@
 ---
+import './BaseLayout.scss';
+import Explorer from "../components/Explorer.astro";
 const {frontmatter: metadata} = Astro.props;
 const title = metadata.frontmatter ? metadata.frontmatter.title ?? "T'is should be the title" : metadata.title;
 ---
@@ -9,20 +11,23 @@ const title = metadata.frontmatter ? metadata.frontmatter.title ?? "T'is should 
     <meta charset="utf-8">
     <title>{title}</title>
 </head>
-<body id="baselayout">
-<div class="grid grid-cols-[25%_50%_25%] grid-rows-[180px_minmax(900px,_1fr)]">
-    <div/>
-    <nav/>
-    <div/>
-    <div/>
-    <section class="px-10 border-[#585858] border-opacity-20 border-x-4 mb-20 bg-[#040404]">
-        <h1 style="color: #ffb022; font-size: 2.5rem; margin-bottom: .1rem">{title}</h1>
+<body id="file_baselayout">
+<div class="grid grid-cols-[25%_60%_15%] grid-rows-[120px_minmax(900px,_1fr)]">
+    <div class="explorer"/>
+    <nav class="top-middle"/>
+    <div class="top-right"/>
+    <Explorer/>
+    <section class="px-10 border-[#585858] border-opacity-20 border-r-4 mb-20">
+        <h1 style="color: #ffb022; font-size: 2.5rem; margin-bottom: 0">{title}</h1>
         <a href="/" style="opacity: .2;">Back to the Index</a>
-        <slot/>
+        <div class="file-content">
+            <slot/>
+        </div>
     </section>
     <div/>
 </div>
-
+</body>
+</html>
 
 <style>
     :global(h1) {
@@ -42,87 +47,4 @@ const title = metadata.frontmatter ? metadata.frontmatter.title ?? "T'is should 
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
-
-    :global(blockquote) {
-        margin-top: .1rem;
-        margin-bottom: .1rem;
-        padding: .1rem .3rem .1rem 1rem;
-        background-color: rgba(26, 26, 26, 0.37);
-        border-left: 4px solid #6e28e6;
-    }
-
-    :global(p) {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    :global(img) {
-        max-width: 100%;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    :global(.internal) {
-        color: #9356fb;
-    }
-
-    :global(a:not([href])) {
-        color: #9356fb;
-    }
-
-    :global(a:not([href]):hover) {
-        opacity: .2;
-        transition: opacity 0.3s ease;
-    }
-
-    :global(hr) {
-        border: 0;
-        height: 1px;
-        background-image: linear-gradient(to right, rgba(51, 51, 51, 0), #585858, rgba(51, 51, 51, 0));
-        margin-top: 2rem;
-        margin-bottom: 2rem;
-    }
-
-    :global(table) {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    :global(th),
-    :global(td) {
-        border: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
-        padding: 0.4rem;
-        text-align: left;
-    }
-
-    :global(th) {
-        background-color: rgba(255, 255, 255, 0.1); /* Subtle background for headers */
-        font-weight: bold;
-    }
-
-    :global(tr:nth-child(even)) {
-        background-color: rgba(255, 255, 255, 0.05); /* Zebra striping */
-    }
-
-    :global(tr:hover) {
-        background-color: rgba(255, 255, 255, 0.1); /* Highlight on hover */
-        transition: background-color 0.3s ease;
-    }
-
-    #baselayout {
-        /* Gradient from bottom left to top right, with colors from #00041B to #000000 to #13001E */
-        /* background: linear-gradient(-135deg, #00020F, #000000, #0A000F); */
-        color: #eef5ff;
-        background-image: url("/noise.png");
-        background-repeat: repeat;
-        background-blend-mode: soft-light;
-        background-color: #040404
-    }
-
-
-
 </style>
-</body>
-</html>
