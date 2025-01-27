@@ -15,7 +15,7 @@ const title = metadata.frontmatter ? metadata.frontmatter.title ?? "T'is should 
     <nav/>
     <div/>
     <div/>
-    <section class="px-10 border-[#585858] border-opacity-20 border-x-4 mb-20">
+    <section class="px-10 border-[#585858] border-opacity-20 border-x-4 mb-20 bg-[#040404]">
         <h1 style="color: #ffb022; font-size: 2.5rem; margin-bottom: .1rem">{title}</h1>
         <a href="/" style="opacity: .2;">Back to the Index</a>
         <slot/>
@@ -63,7 +63,7 @@ const title = metadata.frontmatter ? metadata.frontmatter.title ?? "T'is should 
     }
 
     :global(.internal) {
-        color: #8a47fd;
+        color: #9356fb;
     }
 
     :global(hr) {
@@ -109,7 +109,7 @@ const title = metadata.frontmatter ? metadata.frontmatter.title ?? "T'is should 
         background-image: url("/noise.png");
         background-repeat: repeat;
         background-blend-mode: soft-light;
-        background-color: #040303
+        background-color: #040404
     }
 
 
