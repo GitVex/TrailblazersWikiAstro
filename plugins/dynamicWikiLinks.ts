@@ -1,11 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import wikiLinkPlugin from 'remark-wiki-link';
 
 /** Recursively gather all .md/.mdx files in src/content */
 function getAllMarkdownFiles(dir: string): string[] {
     let results: string[] = [];
-    const list = fs.readdirSync(dir, { withFileTypes: true });
+    const list = fs.readdirSync(dir, {withFileTypes: true});
 
     for (const dirent of list) {
         const fullPath = path.join(dir, dirent.name);
@@ -37,40 +36,33 @@ function filePathToSlug(filePath: string) {
 function filePathToRoute(filePath: string) {
     // Get the relative path under "src/content"
     const relative = path.relative(path.join(process.cwd(), 'src/content'), filePath);
-    // e.g. "Folder/My File.md"
-    // remove extension:
-    const withoutExt = relative.replace(/\.(md|mdx)$/, '');
-    // e.g. "Folder/My File"
-    // turn spaces into dashes if you want:
-    const dashed = withoutExt.replace(/\s+/g, '-');
-    // e.g. "Folder/My-File"
+    // Folder\\My File.md
+    // remove filename
+    const folder = path.dirname(relative);
+
+    // e.g. "Folder/my-file"
     // build your route:
-    return `/content/${dashed}`;
+    return `/content/${folder}`;
 }
 
-export default function dynamicWikiLinks() {
+/**
+ * Returns a map of slugs to routes.
+ *
+ * **/
+export default function getRouteMap() {
     // 1. Gather all .md/.mdx paths
     const allMarkdownPaths = getAllMarkdownFiles(path.join(process.cwd(), 'src/content'));
 
     // 2. Build a map: { slug -> route }
-    const slugToRoute = new Map();
+    const slugToRoute: Map<string, string> = new Map();
     for (const filePath of allMarkdownPaths) {
         const slug = filePathToSlug(filePath);
         const route = filePathToRoute(filePath);
         slugToRoute.set(slug, route);
     }
 
+    console.log(slugToRoute);
+
     // 3. Return the plugin config for remark-wiki-link
-    return () => [
-        wikiLinkPlugin,
-        {
-            aliasDivider: '|',
-            inlineLink: true,
-            // This is how the plugin transforms "[[Some Name]]" to a slug:
-            // e.g. "Some Name" => "some-name"
-            pageResolver: (name: string) => [name.replace(/\s+/g, '-').toLowerCase()],
-            // Then we use that slug to look up the correct route from slugToRoute.
-            hrefTemplate: (slug: string) => slugToRoute.get(slug) ?? `/content/not-found/${slug}`,
-        },
-    ];
+    return slugToRoute
 }

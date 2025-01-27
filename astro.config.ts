@@ -6,7 +6,11 @@ import {setDefaultLayout} from "./plugins/defaultLayouts-plugin.mjs";
 import remarkGfm from 'remark-gfm';
 
 import preact from '@astrojs/preact';
-import dynamicWikiLinks from "./plugins/dynamicWikiLinks.ts";
+import wikiLinkPlugin from "remark-wiki-link";
+import getRouteMap from "./plugins/dynamicWikiLinks.ts";
+
+// Build Route Map for wiki links
+const slugToRoute = getRouteMap();
 
 // https://astro.build/config
 export default defineConfig({
@@ -15,7 +19,11 @@ export default defineConfig({
         remarkPlugins: [
             setDefaultLayout,
             remarkGfm,
-            // dynamicWikiLinks,
+            [wikiLinkPlugin, {
+                aliasDivider: '|',
+                pageResolver: (name: string) => [name.replace(/\s+/g, '-').toLowerCase()],
+                hrefTemplate: (slug: string) => slugToRoute.get(slug)?.concat('/', slug)
+            }]
         ]
     }
 });

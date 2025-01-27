@@ -66,6 +66,15 @@ const title = metadata.frontmatter ? metadata.frontmatter.title ?? "T'is should 
         color: #9356fb;
     }
 
+    :global(a:not([href])) {
+        color: #9356fb;
+    }
+
+    :global(a:not([href]):hover) {
+        opacity: .2;
+        transition: opacity 0.3s ease;
+    }
+
     :global(hr) {
         border: 0;
         height: 1px;
