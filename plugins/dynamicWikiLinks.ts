@@ -39,13 +39,12 @@ export function slugToFileName(slug: string) {
 export function filePathToRoute(filePath: string) {
     // Get the relative path under "src/content"
     const relative = path.relative(path.join(process.cwd(), 'src/content'), filePath);
+    // console.log(relative);
+
     // Folder\\My File.md
     // remove filename
-    const folder = path.dirname(relative) === '.' ? '' : path.dirname(relative).concat('/');
-    // normalize // slashes
-    folder.replace('//', '/')
-    // normalize \\ slashes
-    folder.replace('\\\\', '/')
+    const folder = path.dirname(relative).replace(/\\/g, '/');
+    // console.log(folder);
 
     // e.g. "Folder/my-file"
     // build your route:
@@ -64,7 +63,7 @@ export default function getRouteMap() {
     const slugToRoute: Map<string, string> = new Map();
     for (const filePath of allMarkdownPaths) {
         const slug = filePathToSlug(filePath);
-        const route = filePathToRoute(filePath);
+        const route = filePathToRoute(filePath).toLowerCase().replace(' ', '-');
         slugToRoute.set(slug, route);
     }
 

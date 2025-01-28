@@ -22,7 +22,7 @@ export default defineConfig({
             [wikiLinkPlugin, {
                 aliasDivider: '|',
                 pageResolver: (name: string) => [name.replace(/\s+/g, '-').toLowerCase()],
-                hrefTemplate: (slug: string) => slugToRoute.get(slug)?.concat(slug)
+                hrefTemplate: (slug: string) => slugToRoute.get(slug)?.concat('/', slug).toLowerCase()
             }]
         ]
     }

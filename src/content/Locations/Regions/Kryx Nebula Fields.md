@@ -1,5 +1,4 @@
 ---
-
 aliases:
   - Kryx
   - Kryx Nebula
@@ -119,6 +118,8 @@ The House hosts representatives from all independent worlds and alliances of the
 | Aveterni Entryway        | Passage to the [[Ward System]], maintained by the Aveterni Collective. Well-regarded for its thorough search protocols and fair toll rates.                                                                       |
 | Cygnus Overlook          | A hidden vantage point above an ancient asteroid ring. Fabled among explorers for breathtaking panoramic views of the entire Kryx Nebula. Famously located at the tipt of the Serengeti Line in the Cygnus sector |
 | Aṕsygaga Relay           | A rumored “shortcut” corridor not listed on any official CATS chart. Many who attempt to navigate it vanish without a trace.                                                                                      |
+
+![[Screenshot_8.png]]![]()
 
 ---
 

@@ -1,0 +1,83 @@
+// BaseLayout.scss
+
+blockquote {
+  margin-top: .1rem;
+  margin-bottom: .1rem;
+  padding: .1rem .3rem .1rem 1rem;
+  background-color: rgba(26, 26, 26, 0.37);
+  border-left: 4px solid #6e28e6;
+}
+
+p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+img {
+  max-width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.internal[href] {
+  color: #9356fb;
+
+  &:hover {
+    color: #c6a6ff;
+    transition: color 0.3s ease;
+  }
+}
+
+.internal:not([href]) {
+  color: #9356fb;
+  cursor: default;
+
+  &:hover {
+    opacity: .3;
+    transition: opacity 0.3s ease;
+  }
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(51, 51, 51, 0), #585858, rgba(51, 51, 51, 0));
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+th,
+td {
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
+  padding: 0.4rem;
+  text-align: left;
+}
+
+th {
+  background-color: rgba(255, 255, 255, 0.1); /* Subtle background for headers */
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05); /* Zebra striping */
+}
+
+tr:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Highlight on hover */
+  transition: background-color 0.3s ease;
+}
+
+/*noinspection CssUnknownTarget*/
+#file_baselayout {
+  /* Gradient from bottom left to top right, with colors from #00041B to #000000 to #13001E */
+  /* background: linear-gradient(-135deg, #00020F, #000000, #0A000F); */
+  color: #eef5ff;
+  background-color: #1a1a1a;
+}

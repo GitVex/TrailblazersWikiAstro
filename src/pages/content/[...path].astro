@@ -7,13 +7,19 @@ import {getDynamicTitle} from "../../components/utils/dynamicTitle";
 export async function getStaticPaths() {
     const allContent = await getCollection("content");
 
-    return allContent.map((content) => {
+    const paths = allContent.map((content) => {
+        const path = content.id
+
         return {
-            params: {slug: content.id},
+            params: {path: path.toLowerCase().replace(' ', '-')},
             //
             props: {content},
         };
     });
+
+    // console.log(paths)
+
+    return paths
 }
 
 const {content} = Astro.props as { content: CollectionEntry<"content"> };
