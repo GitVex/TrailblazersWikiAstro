@@ -20,6 +20,8 @@ export default defineConfig({
         remarkPlugins: [
             setDefaultLayout,
             remarkGfm,
+            // If wikilinks don't update, set aliasDivider to "['|']". This will throw an error. After throwing the
+            // error, set aliasDivider back to "|". This will update the wikilinks.
             [wikiLinkPlugin, {
                 aliasDivider: '|',
                 pageResolver: (name: string) => pageResolver(name),
@@ -30,12 +32,12 @@ export default defineConfig({
 });
 
 function pageResolver(name: string) {
-    console.log('name', name);
+    // console.log('name', name);
     return [sanitize(name)];
 }
 
 function hrefTemplate(slug: string) {
-    console.log('slug', slug);
+    // console.log('slug', slug);
     return sanitize(slugToRoute.get(slug)?.concat('/', slug));
 }
 
