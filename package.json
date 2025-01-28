@@ -15,6 +15,7 @@
     "@types/node": "^22.10.10",
     "astro": "^5.1.8",
     "canvas": "^3.1.0",
+    "mdast-util-find-and-replace": "^3.0.2",
     "preact": "^10.25.4",
     "remark-gfm": "^4.0.0",
     "remark-wiki-link": "^2.0.1",

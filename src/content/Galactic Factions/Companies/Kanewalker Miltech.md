@@ -43,7 +43,7 @@ Kanewalker Miltech believes in creating tools that give their users the decisive
 ## Relationships 
 
 | Faction                                   | Relationship Type | Description                                                                                                                                              |
-| ----------------------------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|-------------------------------------------| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [[Security Compound Company\|SecCom Co.]] | Supplier          | Supplies most of their arsenal, including low-caliber weapons from Kanewalker Arms. SecCom most predominantly utilizes their "Belisar" Main Battle Tank. |
 | Lanternyard Inc.                          | Partner           | Collaborates on atmospheric propulsion systems.                                                                                                          |
 | CoTG                                      | Mech Supplier     | Kanewalker supplies the Confederacy with exclusive, custom mechs that are a cornerstone of their ground forces.                                          |

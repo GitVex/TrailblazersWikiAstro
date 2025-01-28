@@ -67,8 +67,6 @@ export default function getRouteMap() {
         slugToRoute.set(slug, route);
     }
 
-    console.log(slugToRoute);
-
     // 3. Return the plugin config for remark-wiki-link
     return slugToRoute
 }
