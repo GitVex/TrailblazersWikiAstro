@@ -19,6 +19,7 @@
     "preact": "^10.25.4",
     "remark-gfm": "^4.0.0",
     "remark-wiki-link": "^2.0.1",
+    "remark-wiki-link-plus": "^1.1.1",
     "sass": "^1.83.4",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.2"

@@ -1,5 +1,5 @@
 // ofwikiLinks.ts
-import getRouteMap from "./dynamicWikiLinks.ts";
+import getRouteMap from "./dynamicWikiLinks.ts";}
 
 interface ofWikiLinksPluginOpts {
     aliasDivider?: string
