@@ -15,7 +15,7 @@ interface ofWikiLinksPluginOpts {
  *  3.  Optional heading after "#"
  *  4.  Optional alias after "|"
  */
-const ALL_LINK_REGEX = /^(!?)\[\[([^#|\]]+)(?:#([^\|]+))?(?:\|([^\]]+))?\]\]/;
+const ALL_LINK_REGEX = /^(!?)\[\[([^#|\]]+)(?:#([^\|]+))?(?:\|([^\]]+))?\]\]/g;
 
 // const DEFAULT_LINK_REGEX = /^\[\[(.+?)\]\]/;
 
