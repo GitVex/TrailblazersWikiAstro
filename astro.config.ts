@@ -7,6 +7,7 @@ import remarkGfm from 'remark-gfm';
 
 import preact from '@astrojs/preact';
 import wikiLinkPlugin from "remark-wiki-link";
+import {remarkOfWikilinksPlugin} from "./plugins/remarkOfWikilinks.ts";
 import getRouteMap from "./plugins/dynamicWikiLinks.ts";
 
 // Build Route Map for wiki links
@@ -22,26 +23,28 @@ export default defineConfig({
             remarkGfm,
             // If wikilinks don't update, set aliasDivider to "['|']". This will throw an error. After throwing the
             // error, set aliasDivider back to "|". This will update the wikilinks.
-            [wikiLinkPlugin, {
-                aliasDivider: '|',
+            // CHANGING THE ALIAS DIVIDER WILL NOT CHANGE ANYTHING AT THE MOMENT
+            [remarkOfWikilinksPlugin, {
+                aliasDivider: ['|'],
                 pageResolver: (name: string) => pageResolver(name),
                 hrefTemplate: (slug: string) => hrefTemplate(slug),
             }]
         ]
+
     }
 });
 
 function pageResolver(name: string) {
     // console.log('name', name);
-    return [sanitize(name)];
+    return slugify(name);
 }
 
 function hrefTemplate(slug: string) {
     // console.log('slug', slug);
-    return sanitize(slugToRoute.get(slug)?.concat('/', slug));
+    return slugify(slugToRoute.get(slug)?.concat('/', slug));
 }
 
-function sanitize(string: string | undefined) {
+function slugify(string: string | undefined) {
     return string?.replace(/\s+/g, '-').toLowerCase().replace('\\', '');
 }
 

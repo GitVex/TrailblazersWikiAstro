@@ -9,12 +9,11 @@ import {findAndReplace} from "mdast-util-find-and-replace";
  *  3.  Optional heading after "#"
  *  4.  Optional alias after "|"
  */
-const ALL_REGEX = /(!?)\[\[([^#|\]]+)(?:#([^|\]]+))?(?:\|([^]]+))?]]/g;
+const ALL_REGEX = /(!?)\[\[([^#|\]]+)(?:#([^|\]]+))?(?:\|([^\]]+))?]]/g;
 
 type remarkOfWikiLinkPluginOptions = {
     hrefTemplate?: (pageName: string) => string;
     pageResolver?: (pageName: string) => string | null;
-    slugify?: (input: string) => string;
     class?: string;
 };
 
@@ -23,9 +22,6 @@ export const remarkOfWikilinksPlugin: Plugin<[remarkOfWikiLinkPluginOptions?], R
     const {
         hrefTemplate = (pageName: string) => `/${pageName}`,
         pageResolver = (pageName: string) => pageName,
-        slugify = (input: string) => input.replace(/\s+/g, '-')
-            .toLowerCase()
-            .replace('\\', ''),
         class: className = 'internal'
     } = options;
 
@@ -33,20 +29,35 @@ export const remarkOfWikilinksPlugin: Plugin<[remarkOfWikiLinkPluginOptions?], R
         findAndReplace(tree, [
             [
                 ALL_REGEX,
-                (match: string[]): any => {
-                    const embed = match[1] === '!';
-                    const matchedName = match[2] as string;
-                    const heading = match[3];
-                    const alias = match[4];
+                (match: string): any => {
+
+                    console.log(`Matched: ${match}`);
+
+
+                    const groups = new RegExp(ALL_REGEX).exec(match);
+                    if (!groups) {
+                        console.warn(`Could not parse link: ${match}`);
+                        return { type: 'text', value: 'PARSING ERROR' }; // Fallback to plain text
+                    }
+
+                    const embed = groups[1] === '!';
+                    const matchedName = groups[2] as string;
+                    const heading = groups[3];
+                    const alias = groups[4];
+
+                    // TODO: Implement embeds
+                    if (embed) {
+                        console.warn(`Escaping Embed: ${match}`);
+                        return { type: 'text', value: match }; // Fallback to plain text for embeds, needs to be supported
+                    }
 
                     const resolvedPage = pageResolver(matchedName);
                     if (!resolvedPage) {
                         console.warn(`Could not resolve page: ${matchedName}`);
-                        return { type: 'text', value: `[[${matchedName}]]` }; // Fallback to plain text
+                        return { type: 'text', value: `COULD NOT RESOLVE` }; // Fallback to plain text
                     }
 
-                    const slug = slugify(resolvedPage);
-                    const href = hrefTemplate(slug ?? '') + (heading ? `#${heading}` : '');
+                    const href = hrefTemplate(resolvedPage ?? '') + (heading ? `#${heading.toLowerCase()}` : '');
 
                     return {
                         type: 'link',
