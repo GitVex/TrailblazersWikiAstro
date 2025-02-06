@@ -8,7 +8,7 @@ import remarkGfm from 'remark-gfm';
 import preact from '@astrojs/preact';
 import wikiLinkPlugin from "remark-wiki-link";
 import {remarkOfWikilinksPlugin} from "./plugins/remarkOfWikilinks.ts";
-import getRouteMap from "./plugins/dynamicWikiLinks.ts";
+import getRouteMap from "./plugins/util/remarkOfWikiLinks-utils.ts";
 
 // Build Route Map for wiki links
 const slugToRoute = getRouteMap();
@@ -25,7 +25,7 @@ export default defineConfig({
             // error, set aliasDivider back to "|". This will update the wikilinks.
             // CHANGING THE ALIAS DIVIDER WILL NOT CHANGE ANYTHING AT THE MOMENT
             [remarkOfWikilinksPlugin, {
-                aliasDivider: ['|'],
+                aliasDivider: '|',
                 pageResolver: (name: string) => pageResolver(name),
                 hrefTemplate: (slug: string) => hrefTemplate(slug),
             }]
@@ -45,7 +45,10 @@ function hrefTemplate(slug: string) {
 }
 
 function slugify(string: string | undefined) {
-    return string?.replace(/\s+/g, '-').toLowerCase().replace('\\', '');
+    return string?.replace(/\s+/g, '-')
+        .replace(/%20+/g, '-')
+        .toLowerCase()
+        .replace('\\', '');
 }
 
 // wiki links docs : https://github.com/landakram/remark-wiki-link

@@ -37,7 +37,7 @@ export const remarkOfWikilinksPlugin: Plugin<[remarkOfWikiLinkPluginOptions?], R
                     const groups = new RegExp(ALL_REGEX).exec(match);
                     if (!groups) {
                         console.warn(`Could not parse link: ${match}`);
-                        return { type: 'text', value: 'PARSING ERROR' }; // Fallback to plain text
+                        return {type: 'text', value: 'PARSING ERROR'}; // Fallback to plain text
                     }
 
                     const embed = groups[1] === '!';
@@ -48,16 +48,23 @@ export const remarkOfWikilinksPlugin: Plugin<[remarkOfWikiLinkPluginOptions?], R
                     // TODO: Implement embeds
                     if (embed) {
                         console.warn(`Escaping Embed: ${match}`);
-                        return { type: 'text', value: match }; // Fallback to plain text for embeds, needs to be supported
+                        return {type: 'text', value: match}; // Fallback to plain text for embeds, needs to be supported
                     }
 
                     const resolvedPage = pageResolver(matchedName);
-                    if (!resolvedPage) {
-                        console.warn(`Could not resolve page: ${matchedName}`);
-                        return { type: 'text', value: `COULD NOT RESOLVE` }; // Fallback to plain text
-                    }
+                    const sluggedHeading = pageResolver(heading)
 
-                    const href = hrefTemplate(resolvedPage ?? '') + (heading ? `#${heading.toLowerCase()}` : '');
+                    const href = hrefTemplate(resolvedPage ?? '') + (sluggedHeading ? `#${sluggedHeading.toLowerCase()}` : '');
+
+                    if (href === 'undefined') {
+                        console.warn(`Could not resolve page: ${matchedName}`);
+
+                        return {
+                            type: 'html',
+                            value: `<span class="not-resolved">${alias ?? matchedName}</span>`
+                        };
+
+                    }
 
                     return {
                         type: 'link',

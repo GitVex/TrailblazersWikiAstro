@@ -1,7 +1,7 @@
 ---
 import './styles/Explorer.scss'
 import {getCollection} from "astro:content";
-import {filePathToRoute, filePathToSlug, slugToFileName} from "../../plugins/dynamicWikiLinks";
+import {filePathToRoute, filePathToSlug, slugToFileName} from "../../plugins/util/remarkOfWikiLinks-utils";
 
 /** Converts file paths into a nested tree object. */
 function buildTree(files) {

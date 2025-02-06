@@ -28,9 +28,10 @@ img {
   }
 }
 
-.internal:not([href]) {
+.not-resolved {
   color: #9356fb;
   cursor: default;
+  pointer-events: stroke;
 
   &:hover {
     opacity: .3;
