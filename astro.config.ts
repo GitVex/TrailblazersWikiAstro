@@ -6,9 +6,8 @@ import {setDefaultLayout} from "./plugins/defaultLayouts-plugin.mjs";
 import remarkGfm from 'remark-gfm';
 
 import preact from '@astrojs/preact';
-import wikiLinkPlugin from "remark-wiki-link";
 import {remarkOfWikilinksPlugin} from "./plugins/remarkOfWikilinks.ts";
-import getRouteMap from "./plugins/util/remarkOfWikiLinks-utils.ts";
+import { getRouteMap } from "./plugins/util/remarkOfWikiLinks-utils.ts";
 
 // Build Route Map for wiki links
 const slugToRoute = getRouteMap();
@@ -23,7 +22,7 @@ export default defineConfig({
             remarkGfm,
             // If wikilinks don't update, set aliasDivider to "['|']". This will throw an error. After throwing the
             // error, set aliasDivider back to "|". This will update the wikilinks.
-            // CHANGING THE ALIAS DIVIDER WILL NOT CHANGE ANYTHING AT THE MOMENT
+            // CHANGING THE ALIAS DIVIDER WILL NOT CHANGE BEHAVIOUR.
             [remarkOfWikilinksPlugin, {
                 aliasDivider: '|',
                 pageResolver: (name: string) => pageResolver(name),

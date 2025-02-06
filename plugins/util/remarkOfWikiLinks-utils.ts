@@ -2,15 +2,14 @@ import fs from 'fs';
 import path from 'path';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
-import remarkStringify from 'remark-stringify';
 import { visit } from 'unist-util-visit';
 import { toString } from 'mdast-util-to-string';
-import type { Node, Parent } from 'unist';
-import type { Heading, Root } from 'mdast';
+import type { Parent } from 'unist';
+import type {Heading, Root, RootContent, Node} from 'mdast';
 
 interface HeadingContent {
     heading: string;
-    content: string;
+    content: string | Parent;
 }
 
 
@@ -68,7 +67,7 @@ export function filePathToRoute(filePath: string) {
  * Returns a map of slugs to routes.
  * Given a slug, you get the route which serves it's content.
  * **/
-export default function getRouteMap() {
+export function getRouteMap() {
     // 1. Gather all .md/.mdx paths
     const allMarkdownPaths = getAllMarkdownFiles(path.join(process.cwd(), 'src/content'));
 
@@ -113,7 +112,7 @@ function extractHeadingContent(markdown: string, targetHeading: string): Heading
 
     let found = false;
     let targetDepth = 0;
-    const contentNodes: Node[] = [];
+    const contentNodes: RootContent[] = [];
 
     visit(tree, (node, index, parent: Parent | null) => {
         if (node.type === 'heading') {
@@ -125,11 +124,11 @@ function extractHeadingContent(markdown: string, targetHeading: string): Heading
                 const children = parent.children;
                 let currentIndex = index! + 1;
                 while (currentIndex < children.length) {
-                    const sibling = children[currentIndex];
+                    const sibling: Node = children[currentIndex];
                     if (sibling.type === 'heading' && (sibling as Heading).depth <= targetDepth) {
                         break;
                     }
-                    contentNodes.push(sibling);
+                    contentNodes.push(sibling as RootContent);
                     currentIndex++;
                 }
             }
@@ -138,11 +137,11 @@ function extractHeadingContent(markdown: string, targetHeading: string): Heading
 
     if (!found) return null;
 
-    const stringifyProcessor = unified().use(remarkStringify);
-    const contentTree: Root = { type: 'root', children: contentNodes };
-    const content = stringifyProcessor.stringify(contentTree).trim();
+    // const stringifyProcessor = unified().use(remarkStringify);
+    const contentTree: Parent = { type: 'blockquote', children: contentNodes };
+    // const content = stringifyProcessor.stringify(contentTree).trim();
 
-    return { heading: targetHeading, content };
+    return { heading: targetHeading, content: contentTree };
 }
 
 /**
