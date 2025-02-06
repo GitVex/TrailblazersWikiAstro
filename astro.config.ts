@@ -24,7 +24,7 @@ export default defineConfig({
             // error, set aliasDivider back to "|". This will update the wikilinks.
             // CHANGING THE ALIAS DIVIDER WILL NOT CHANGE BEHAVIOUR.
             [remarkOfWikilinksPlugin, {
-                aliasDivider: '|',
+                aliasDivider: ['|'],
                 pageResolver: (name: string) => pageResolver(name),
                 hrefTemplate: (slug: string) => hrefTemplate(slug),
             }]

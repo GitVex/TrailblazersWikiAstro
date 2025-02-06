@@ -128,6 +128,11 @@ function extractHeadingContent(markdown: string, targetHeading: string): Heading
                     if (sibling.type === 'heading' && (sibling as Heading).depth <= targetDepth) {
                         break;
                     }
+                    // ignore thematic breaks
+                    if (sibling.type === 'thematicBreak') {
+                        currentIndex++;
+                        continue;
+                    }
                     contentNodes.push(sibling as RootContent);
                     currentIndex++;
                 }
