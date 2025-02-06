@@ -144,6 +144,7 @@ function extractHeadingContent(markdown: string, targetHeading: string): Heading
 
     return { heading: targetHeading, content };
 }
+
 /**
  * Reads a Markdown file and extracts content under the specified heading.
  * @param filePath Path to the Markdown file.
