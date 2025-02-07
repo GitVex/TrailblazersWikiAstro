@@ -13,7 +13,7 @@ Types:
 | Drink Giver     | 1   | 12  | +1   | By weapon    | 10m  | 14  | +2     | 14+   |
 | Blood Warrior   | 3   | 14  | +2   | By weapon +2 | 10m  | 12  | +2     | 14+   |
 | Bone Harvester  | 1   | 10  | +1   | By weapon    | 10m  | 10  | +3     | 15+   |
-SWN Statblocks explained - [[StarsWithoutNumberRevised-DeluxeEdition-011418.pdf#page=199&selection=380,7,380,15|StarsWithoutNumberRevised-DeluxeEdition-011418, page 199]]
+SWN Statblocks explained - [[00SWONHandbook.pdf#page=199&selection=380,7,380,15|StarsWithoutNumberRevised-DeluxeEdition-011418, page 199]]
 ### Georgian Sects
 
 Types:

@@ -3,23 +3,24 @@ import {getCollection, render} from "astro:content";
 import type {CollectionEntry} from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import {getDynamicTitle} from "../../components/utils/dynamicTitle";
+import slugify from "voca/slugify";
 
 export async function getStaticPaths() {
     const allContent = await getCollection("content");
 
-    const paths = allContent.map((content) => {
+    // console.log(paths)
+
+    return allContent.map((content) => {
         const path = content.id
 
+        const slugged = path.split('/').map(slugify).join('/')
+
         return {
-            params: {path: path.toLowerCase().replace(' ', '-')},
+            params: {path: slugged},
             //
             props: {content},
         };
-    });
-
-    // console.log(paths)
-
-    return paths
+    })
 }
 
 const {content} = Astro.props as { content: CollectionEntry<"content"> };

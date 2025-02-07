@@ -7,10 +7,11 @@ import remarkGfm from 'remark-gfm';
 
 import preact from '@astrojs/preact';
 import {remarkOfWikilinksPlugin} from "./plugins/remarkOfWikilinks.ts";
-import { getRouteMap } from "./plugins/util/remarkOfWikiLinks-utils.ts";
+import { getSlugMap } from "./plugins/util/remarkOfWikiLinks-utils.ts";
+import slugify from "voca/slugify";
 
 // Build Route Map for wiki links
-const slugToRoute = getRouteMap();
+const slugMap = getSlugMap();
 // console.log(slugToRoute);
 
 // https://astro.build/config
@@ -24,9 +25,10 @@ export default defineConfig({
             // error, set aliasDivider back to "|". This will update the wikilinks.
             // CHANGING THE ALIAS DIVIDER WILL NOT CHANGE BEHAVIOUR.
             [remarkOfWikilinksPlugin, {
-                aliasDivider: ['|'],
+                aliasDivider: '|',
                 pageResolver: (name: string) => pageResolver(name),
                 hrefTemplate: (slug: string) => hrefTemplate(slug),
+                slugMap
             }]
         ]
 
@@ -40,10 +42,10 @@ function pageResolver(name: string) {
 
 function hrefTemplate(slug: string) {
     // console.log('slug', slug);
-    return slugify(slugToRoute.get(slug)?.concat('/', slug));
+    return cleanURL(slugMap[slug]?.route.concat('/', slug));
 }
 
-function slugify(string: string | undefined) {
+function cleanURL(string: string | undefined) {
     return string?.replace(/\s+/g, '-')
         .replace(/%20+/g, '-')
         .toLowerCase()

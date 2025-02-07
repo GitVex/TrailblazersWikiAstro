@@ -5,7 +5,8 @@ const content = defineCollection({
     loader: glob({pattern: '**/*.md', base: './src/content/'}),
     schema: z.object({
         title: z.optional(z.string()),
-        allowedUsers: z.optional(z.string())
+        allowedUsers: z.optional(z.string()),
+        parentArticle: z.optional(z.string()),
     }),
 })
 

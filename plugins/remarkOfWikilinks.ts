@@ -1,7 +1,7 @@
 import type {Plugin} from 'unified';
 import type {Root} from 'mdast';
 import {findAndReplace} from "mdast-util-find-and-replace";
-import {extractSection, getPathMap} from "./util/remarkOfWikiLinks-utils.ts";
+import {extractSection, type SlugMap} from "./util/remarkOfWikiLinks-utils.ts";
 
 /**
  * Match group breakdown:
@@ -11,11 +11,11 @@ import {extractSection, getPathMap} from "./util/remarkOfWikiLinks-utils.ts";
  *  4.  Optional alias after "|"
  */
 const ALL_REGEX = /(!?)\[\[([^#|\]]+)(?:#([^|\]]+))?(?:\|([^\]]+))?]]/g;
-const pathMap = getPathMap();
 
 type remarkOfWikiLinkPluginOptions = {
+    slugMap: SlugMap;
     hrefTemplate?: (pageName: string) => string;
-    pageResolver?: (pageName: string) => string | null;
+    pageResolver?: (pageName: string) => string;
     class?: string;
 };
 
@@ -28,12 +28,13 @@ const isMedia: (matchedName: string) => boolean = (matchedName) => {
         || matchedName.includes('.pdf')
 }
 
-export const remarkOfWikilinksPlugin: Plugin<[remarkOfWikiLinkPluginOptions?], Root> = (options = {}) => {
+export const remarkOfWikilinksPlugin: Plugin<[remarkOfWikiLinkPluginOptions], Root> = (options) => {
 
     const {
         hrefTemplate = (pageName: string) => `/${pageName}`,
         pageResolver = (pageName: string) => pageName,
-        class: className = 'internal'
+        class: className = 'internal',
+        slugMap
     } = options;
 
     return (tree) => {
@@ -56,7 +57,7 @@ export const remarkOfWikilinksPlugin: Plugin<[remarkOfWikiLinkPluginOptions?], R
                     const heading = groups[3];
                     const alias = groups[4];
 
-                    const resolvedPage = pageResolver(matchedName);
+                    const slug = pageResolver(matchedName);
                     const sluggedHeading = pageResolver(heading)
 
                     if (embed) {
@@ -67,7 +68,7 @@ export const remarkOfWikilinksPlugin: Plugin<[remarkOfWikiLinkPluginOptions?], R
                                 value: `<<Oops, no media embeds yet>>`
                             }
                         }
-                        const filePath = pathMap.get(resolvedPage ?? '');
+                        const filePath = slugMap[slug]?.filePath;
 
                         if (filePath && heading) {
                             console.log(`Getting ${heading} from:`, filePath)
@@ -78,11 +79,11 @@ export const remarkOfWikilinksPlugin: Plugin<[remarkOfWikiLinkPluginOptions?], R
 
                         return {
                             type: 'text',
-                            value: `<<Oops, something went wrong. Could not embed "${resolvedPage}" and Heading "${heading}">>`
+                            value: `<<Oops, something went wrong. Could not embed "${slug}" and Heading "${heading}">>`
                         }
                     }
 
-                    const href = hrefTemplate(resolvedPage ?? '') + (sluggedHeading ? `#${sluggedHeading.toLowerCase()}` : '');
+                    const href = hrefTemplate(slug ?? '') + (sluggedHeading ? `#${sluggedHeading.toLowerCase()}` : '');
 
                     if (href === 'undefined') {
                         console.warn(`Could not resolve page: ${matchedName}`);

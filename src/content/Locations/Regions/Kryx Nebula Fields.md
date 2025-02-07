@@ -90,15 +90,15 @@ Placeholder (Brief description of the location's layout, environment, and notabl
 
 ## Factions 
 
-| **Faction**                 | **Goals**                                                                  | **Influence** (1 - 5) |
-| --------------------------- | -------------------------------------------------------------------------- | --------------------- |
-| House of Representatives    | Maintain a unified political front in Kryx                                 | 3                     |
-| Unified Planets of Sol      | Expand diplomatic and economic ties in the Nebula                          | 4                     |
-| Lanternyard Inc.            | Secure long-term mining and trade contracts                                | 4                     |
-| Confederacy of Terran Gates | Protect key military routes and resources                                  | 4                     |
-| Gray Exchange               | Handle off-the-grid dealings and contraband                                | 2                     |
-| Danube Research Co.         | Investigate the Simiac Black Hole, further relation with Cephei Glassworks | 3                     |
-| Aveterni Collective         | Maintain safe passage along unclaimed nebular paths                        | 2                     |
+| **Faction**                     | **Goals**                                                                  | **Influence** (1 - 5) |
+| ------------------------------- | -------------------------------------------------------------------------- | --------------------- |
+| House of Representatives        | Maintain a unified political front in Kryx                                 | 3                     |
+| [[Unified Planets of Sol]]      | Expand diplomatic and economic ties in the Nebula                          | 4                     |
+| [[Lanternyard Inc.]]            | Secure long-term mining and trade contracts                                | 4                     |
+| [[Confederacy of Terran Gates]] | Protect key military routes and resources                                  | 4                     |
+| [[Gray Exchange]]               | Handle off-the-grid dealings and contraband                                | 2                     |
+| [[Danube Research Corporation]] | Investigate the Simiac Black Hole, further relation with Cephei Glassworks | 3                     |
+| Aveterni Collective             | Maintain safe passage along unclaimed nebular paths                        | 2                     |
 #### House of Representatives
 The House hosts representatives from all independent worlds and alliances of the Kryx Nebula that unite under the Committee's governing body, which is not compulsive, as factions like the Alsafi Caliphate and Oroban Mercantiles abstain from independance and align with other galactic factions. Parties within in the House are:
 - **Socialist Kryxian Worlds** - Push for more local independence and less reliance on other galactic factions

@@ -6,11 +6,67 @@ import { visit } from 'unist-util-visit';
 import { toString } from 'mdast-util-to-string';
 import type { Parent } from 'unist';
 import type {Heading, Root, RootContent, Node} from 'mdast';
+import slugify from "voca/slugify";
+import {deprecate} from "node:util";
 
 interface HeadingContent {
     heading: string;
     content: string | Parent;
 }
+
+/**
+ * Interface representing information about a slug.
+ */
+interface SlugInfo {
+    /** The name of the slug. */
+    name: string;
+    /** The route associated with the slug. */
+    route: string;
+    /** The file path of the slug. */
+    filePath: string;
+}
+
+/**
+ * Interface representing a map of slugs to their information.
+ */
+export interface SlugMap {
+    [slug: string]: SlugInfo;
+}
+
+export function getSlugMap(): SlugMap {
+    const allMarkdownPaths = getAllMarkdownFiles(path.join(process.cwd(), 'src/content'));
+    const slugMap: SlugMap = {};
+
+    for (const filePath of allMarkdownPaths) {
+        const slug = filePathToSlug(filePath);
+        const route = filePath.split('/').map(slugify).join('/')
+
+        slugMap[slug] = {
+            name: slugToFileName(slug),
+            route: route,
+            filePath: filePath
+        };
+    }
+
+    return slugMap;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /** Recursively gather all .md/.mdx files in src/content */
@@ -36,9 +92,14 @@ function getAllMarkdownFiles(dir: string): string[] {
  */
 export function filePathToSlug(filePath: string) {
     const base = path.basename(filePath, path.extname(filePath)); // "My File"
-    return base.replace(/\s+/g, '-').toLowerCase(); // "my-file"
+    return slugify(base) // "my-file"
 }
-
+/**
+ * Converts a slug to a file name.
+ * @deprecate Use the name attribute of the SlugMap instead
+ * @param slug The slug to convert.
+ * @returns The formatted file name.
+ */
 export function slugToFileName(slug: string) {
     return slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 }
@@ -63,42 +124,42 @@ export function filePathToRoute(filePath: string) {
     return `/content/${folder}`;
 }
 
-/**
- * Returns a map of slugs to routes.
- * Given a slug, you get the route which serves it's content.
- * **/
-export function getRouteMap() {
-    // 1. Gather all .md/.mdx paths
-    const allMarkdownPaths = getAllMarkdownFiles(path.join(process.cwd(), 'src/content'));
+// /**
+//  * Returns a map of slugs to routes.
+//  * Given a slug, you get the route which serves it's content.
+//  * **/
+// export function getRouteMap() {
+//     // 1. Gather all .md/.mdx paths
+//     const allMarkdownPaths = getAllMarkdownFiles(path.join(process.cwd(), 'src/content'));
+//
+//     // 2. Build a map: { slug -> route }
+//     const slugToRoute: Map<string, string> = new Map();
+//     for (const filePath of allMarkdownPaths) {
+//         const slug = filePathToSlug(filePath);
+//         const route = filePathToRoute(filePath).toLowerCase().replace(' ', '-');
+//         slugToRoute.set(slug, route);
+//     }
+//
+//     // 3. Return the plugin config for remark-wiki-link
+//     return slugToRoute
+// }
 
-    // 2. Build a map: { slug -> route }
-    const slugToRoute: Map<string, string> = new Map();
-    for (const filePath of allMarkdownPaths) {
-        const slug = filePathToSlug(filePath);
-        const route = filePathToRoute(filePath).toLowerCase().replace(' ', '-');
-        slugToRoute.set(slug, route);
-    }
-
-    // 3. Return the plugin config for remark-wiki-link
-    return slugToRoute
-}
-
-/**
- * Returns a map of slugs to file paths.
- * Given a slug, you get the file path of the markdown file.
- */
-export function getPathMap() {
-    // Gather all .md/.mdx paths and build a map: { slug -> path }
-    const allMarkdownPaths = getAllMarkdownFiles(path.join(process.cwd(), 'src/content'));
-
-    const slugToPath: Map<string, string> = new Map();
-    for (const filePath of allMarkdownPaths) {
-        const slug = filePathToSlug(filePath);
-        slugToPath.set(slug, filePath);
-    }
-
-    return slugToPath;
-}
+// /**
+//  * Returns a map of slugs to file paths.
+//  * Given a slug, you get the file path of the markdown file.
+//  */
+// export function getPathMap() {
+//     // Gather all .md/.mdx paths and build a map: { slug -> path }
+//     const allMarkdownPaths = getAllMarkdownFiles(path.join(process.cwd(), 'src/content'));
+//
+//     const slugToPath: Map<string, string> = new Map();
+//     for (const filePath of allMarkdownPaths) {
+//         const slug = filePathToSlug(filePath);
+//         slugToPath.set(slug, filePath);
+//     }
+//
+//     return slugToPath;
+// }
 
 /**
  * Extracts the content under a specific heading in a Markdown file.

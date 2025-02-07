@@ -1,16 +1,27 @@
 ---
 import './styles/Explorer.scss'
 import {getCollection} from "astro:content";
-import {filePathToRoute, filePathToSlug, slugToFileName} from "../../plugins/util/remarkOfWikiLinks-utils";
+import {filePathToSlug, getSlugMap} from "../../plugins/util/remarkOfWikiLinks-utils";
 
 /** Converts file paths into a nested tree object. */
-function buildTree(files) {
+function buildTree() {
+    const files = await getCollection("content");
+
     const tree = {};
+    const slugMap = getSlugMap();
 
     files.forEach(file => {
-        const slug = filePathToRoute(file.filePath).concat('/', filePathToSlug(file.filePath)).toLowerCase().replace(' ', '-');
+
+        const fpath = file.filePath
+        if (!fpath) return;
+        const slug = filePathToSlug(fpath);
+        const route = filePathToRoute(file.filePath).concat('/', filePathToSlug(file.filePath)).toLowerCase().replace(' ', '-');
+
+
+
+
         // trim first slash
-        const parts = slug.split("/").slice(1);
+        const parts = route.split("/").slice(1);
         let current = tree;
 
         for (let i = 0; i < parts.length; i++) {
@@ -49,9 +60,7 @@ function renderTree(tree, path = "") {
     });
 }
 
-
-const allFiles = await getCollection("content");
-const tree = buildTree(allFiles);
+const tree = buildTree();
 const renderedTree = renderTree(tree)
 ---
 

@@ -1,5 +1,5 @@
 ---
-allowedUsers: Nils
+allowedUsers: Leon, Tim
 ---
 
 # World: Anaris

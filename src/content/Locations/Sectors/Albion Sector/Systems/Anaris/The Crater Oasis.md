@@ -1,5 +1,5 @@
 ---
-allowedUsers: Nils
+allowedUsers: Nils, Leon, Tim
 aliases:
   - Crater Oasis
 ---
@@ -24,9 +24,9 @@ aliases:
 
 The Crater Oasis is a sprawling settlement located within a massive impact crater in the arid Northern Dunelands. A rare source of fresh water in the otherwise barren region, the oasis has become a critical hub for survival on Anaris. The settlement is dominated by makeshift dwellings, cultivated plots of hardy crops, and religious monuments to the Great Flood. 
 
-The settlement’s bustling market is a chaotic blend of trade and fervent devotion, with blood-stained rituals and water exchanges occurring side by side. The atmosphere is tense, as armed guards patrol the streets and watch for signs of rebellion or outside incursions.
+The settlement’s market is a blend of trade and fervent devotion, with blood-stained rituals and water exchanges occurring side by side. The atmosphere is tense, as armed guards patrol the streets and watch for signs of rebellion or outside incursions.
 
-The Georgian Sects currently control the area, but the oasis remains a focal point of intense conflict, as other factions constantly vie for its resources.
+The Georgian Sects currently control the area, but the oasis remains a point of conflict, as other factions constantly vie for its control.
 
 ---
 
