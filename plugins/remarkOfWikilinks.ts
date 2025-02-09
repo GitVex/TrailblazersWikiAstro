@@ -20,12 +20,15 @@ type remarkOfWikiLinkPluginOptions = {
 };
 
 const isMedia: (matchedName: string) => boolean = (matchedName) => {
-    return matchedName.includes('.jpg')
-        || matchedName.includes('.png')
-        || matchedName.includes('.gif')
-        || matchedName.includes('.mp4')
+    return matchedName.includes('.mp4')
         || matchedName.includes('.webm')
         || matchedName.includes('.pdf')
+}
+
+const isImage: (matchedName: string) => boolean = (matchedName) => {
+    return matchedName.includes('.jpg')
+    || matchedName.includes('.png')
+    || matchedName.includes('.gif')
 }
 
 export const remarkOfWikilinksPlugin: Plugin<[remarkOfWikiLinkPluginOptions], Root> = (options) => {
@@ -61,13 +64,25 @@ export const remarkOfWikilinksPlugin: Plugin<[remarkOfWikiLinkPluginOptions], Ro
                     const sluggedHeading = pageResolver(heading)
 
                     if (embed) {
-                        // Only for cross note embeds. Not for media yet
-                        if (isMedia(matchedName)) {
+                        if(isImage(matchedName)) {
+                            return {
+                                type: 'image',
+                                url: `/src/images/${matchedName}`,
+                                data: {
+                                    hProperties: {
+                                        class: 'media'
+                                    }
+                                }
+                            }
+                        } else if (isMedia(matchedName)) {
                             return {
                                 type: 'text',
                                 value: `<<Oops, no media embeds yet>>`
                             }
                         }
+
+                        // Only for cross note embeds. Not for media yet
+
                         const filePath = slugMap[slug]?.filePath;
 
                         if (filePath && heading) {

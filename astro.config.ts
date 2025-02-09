@@ -7,6 +7,7 @@ import remarkGfm from 'remark-gfm';
 
 import preact from '@astrojs/preact';
 import {remarkOfWikilinksPlugin} from "./plugins/remarkOfWikilinks.ts";
+import { remarkOfMediaLinksPlugin } from "./plugins/remarkOfMediaLinks.ts";
 import { getSlugMap } from "./plugins/util/remarkOfWikiLinks-utils.ts";
 import slugify from "voca/slugify";
 
@@ -21,6 +22,7 @@ export default defineConfig({
         remarkPlugins: [
             setDefaultLayout,
             remarkGfm,
+            // remarkOfMediaLinksPlugin,
             // If wikilinks don't update, set aliasDivider to "['|']". This will throw an error. After throwing the
             // error, set aliasDivider back to "|". This will update the wikilinks.
             // CHANGING THE ALIAS DIVIDER WILL NOT CHANGE BEHAVIOUR.
@@ -42,7 +44,7 @@ function pageResolver(name: string) {
 
 function hrefTemplate(slug: string) {
     // console.log('slug', slug);
-    return cleanURL(slugMap[slug]?.route.concat('/', slug));
+    return cleanURL(slugMap[slug]?.route);
 }
 
 function cleanURL(string: string | undefined) {

@@ -8,6 +8,7 @@ import type { Parent } from 'unist';
 import type {Heading, Root, RootContent, Node} from 'mdast';
 import slugify from "voca/slugify";
 import {deprecate} from "node:util";
+import remarkGfm from "remark-gfm";
 
 interface HeadingContent {
     heading: string;
@@ -39,10 +40,11 @@ export function getSlugMap(): SlugMap {
 
     for (const filePath of allMarkdownPaths) {
         const slug = filePathToSlug(filePath);
-        const route = filePath.split('/').map(slugify).join('/')
+        const relativePath = path.dirname(path.relative(path.join(process.cwd(), 'src/content'), filePath));
+        const route = '/content/' + relativePath.split('\\').map(slugify).join('/').concat('/', slug)
 
         slugMap[slug] = {
-            name: slugToFileName(slug),
+            name: path.basename(filePath, path.extname(filePath)),
             route: route,
             filePath: filePath
         };
@@ -50,24 +52,6 @@ export function getSlugMap(): SlugMap {
 
     return slugMap;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /** Recursively gather all .md/.mdx files in src/content */
 function getAllMarkdownFiles(dir: string): string[] {
@@ -112,54 +96,12 @@ export function slugToFileName(slug: string) {
 export function filePathToRoute(filePath: string) {
     // Get the relative path under "src/content"
     const relative = path.relative(path.join(process.cwd(), 'src/content'), filePath);
-    // console.log(relative);
 
-    // Folder\\My File.md
-    // remove filename
-    const folder = path.dirname(relative).replace(/\\/g, '/');
-    // console.log(folder);
+    // Remove file extension
+    const route = relative.replace(/\.(md|mdx)$/, '');
 
-    // e.g. "Folder/my-file"
-    // build your route:
-    return `/content/${folder}`;
+    return `/content/${route}`;
 }
-
-// /**
-//  * Returns a map of slugs to routes.
-//  * Given a slug, you get the route which serves it's content.
-//  * **/
-// export function getRouteMap() {
-//     // 1. Gather all .md/.mdx paths
-//     const allMarkdownPaths = getAllMarkdownFiles(path.join(process.cwd(), 'src/content'));
-//
-//     // 2. Build a map: { slug -> route }
-//     const slugToRoute: Map<string, string> = new Map();
-//     for (const filePath of allMarkdownPaths) {
-//         const slug = filePathToSlug(filePath);
-//         const route = filePathToRoute(filePath).toLowerCase().replace(' ', '-');
-//         slugToRoute.set(slug, route);
-//     }
-//
-//     // 3. Return the plugin config for remark-wiki-link
-//     return slugToRoute
-// }
-
-// /**
-//  * Returns a map of slugs to file paths.
-//  * Given a slug, you get the file path of the markdown file.
-//  */
-// export function getPathMap() {
-//     // Gather all .md/.mdx paths and build a map: { slug -> path }
-//     const allMarkdownPaths = getAllMarkdownFiles(path.join(process.cwd(), 'src/content'));
-//
-//     const slugToPath: Map<string, string> = new Map();
-//     for (const filePath of allMarkdownPaths) {
-//         const slug = filePathToSlug(filePath);
-//         slugToPath.set(slug, filePath);
-//     }
-//
-//     return slugToPath;
-// }
 
 /**
  * Extracts the content under a specific heading in a Markdown file.
@@ -168,7 +110,7 @@ export function filePathToRoute(filePath: string) {
  * @returns An object with the heading text and its content, or null if not found.
  */
 function extractHeadingContent(markdown: string, targetHeading: string): HeadingContent | null {
-    const parseProcessor = unified().use(remarkParse);
+    const parseProcessor = unified().use(remarkParse).use(remarkGfm);
     const tree = parseProcessor.parse(markdown) as Root;
 
     let found = false;
@@ -203,9 +145,7 @@ function extractHeadingContent(markdown: string, targetHeading: string): Heading
 
     if (!found) return null;
 
-    // const stringifyProcessor = unified().use(remarkStringify);
     const contentTree: Parent = { type: 'blockquote', children: contentNodes };
-    // const content = stringifyProcessor.stringify(contentTree).trim();
 
     return { heading: targetHeading, content: contentTree };
 }

@@ -4,16 +4,16 @@ import type {CollectionEntry} from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import {getDynamicTitle} from "../../components/utils/dynamicTitle";
 import slugify from "voca/slugify";
+import { getSlugMap } from "../../../plugins/util/remarkOfWikiLinks-utils";
 
 export async function getStaticPaths() {
     const allContent = await getCollection("content");
-
-    // console.log(paths)
 
     return allContent.map((content) => {
         const path = content.id
 
         const slugged = path.split('/').map(slugify).join('/')
+        //console.log(`${path} -> ${slugged}`)
 
         return {
             params: {path: slugged},
@@ -22,15 +22,16 @@ export async function getStaticPaths() {
         };
     })
 }
-
 const {content} = Astro.props as { content: CollectionEntry<"content"> };
+const slugMap = getSlugMap();
+const slug = content.id.split('/').slice(-1)[0]
 
 const renderResult = await render(content)
 const Rendered = renderResult.Content
 const frontmatter = {
     // @ts-ignore
     ...content.rendered?.metadata?.frontmatter,
-    title: getDynamicTitle(content.id)
+    title: slugMap[slug].name,
 }
 ---
 

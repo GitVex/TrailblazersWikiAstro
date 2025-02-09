@@ -2,26 +2,24 @@
 import './styles/Explorer.scss'
 import {getCollection} from "astro:content";
 import {filePathToSlug, getSlugMap} from "../../plugins/util/remarkOfWikiLinks-utils";
+import capitalize from "voca/capitalize";
+
+const slugMap = getSlugMap();
 
 /** Converts file paths into a nested tree object. */
-function buildTree() {
+async function buildTree() {
     const files = await getCollection("content");
 
     const tree = {};
-    const slugMap = getSlugMap();
 
     files.forEach(file => {
 
         const fpath = file.filePath
         if (!fpath) return;
         const slug = filePathToSlug(fpath);
-        const route = filePathToRoute(file.filePath).concat('/', filePathToSlug(file.filePath)).toLowerCase().replace(' ', '-');
+        const route = slugMap[slug].route;
 
-
-
-
-        // trim first slash
-        const parts = route.split("/").slice(1);
+        const parts = route.split("/");
         let current = tree;
 
         for (let i = 0; i < parts.length; i++) {
@@ -43,14 +41,12 @@ function renderTree(tree, path = "") {
     return Object.entries(tree).map(([key, value]) => {
         if (Array.isArray(value)) {
             // key is a "file" in the final segment
-            // Link to the actual page, e.g., `/blog/<full-slug>`
-            const fullSlug = `${path}/${key}`;
-            return `<li class="file-label" ><a href="${fullSlug}">${slugToFileName(key)}</a></li>`;
+            return `<li class="file-label" ><a href="${slugMap[key].route}">${slugMap[key].name}</a></li>`;
         } else {
             // key is a folder
             return `
         <li class="folder-item">
-          <p class="folder-label">${key.charAt(0).toUpperCase() + String(key).slice(1)}</p>
+          <p class="folder-label">${key.split('-').map((string: string) => capitalize(string)).join(' ')}</p>
           <ul>
             ${renderTree(value, path + "/" + key).join("")}
           </ul>
@@ -60,7 +56,7 @@ function renderTree(tree, path = "") {
     });
 }
 
-const tree = buildTree();
+const tree = await buildTree();
 const renderedTree = renderTree(tree)
 ---
 
