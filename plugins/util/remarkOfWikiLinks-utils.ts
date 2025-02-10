@@ -1,19 +1,13 @@
 import fs from 'fs';
 import path from 'path';
-import { unified } from 'unified';
+import {unified} from 'unified';
 import remarkParse from 'remark-parse';
-import { visit } from 'unist-util-visit';
-import { toString } from 'mdast-util-to-string';
-import type { Parent } from 'unist';
-import type {Heading, Root, RootContent, Node} from 'mdast';
+import {visit} from 'unist-util-visit';
+import {toString} from 'mdast-util-to-string';
+import type {Parent} from 'unist';
+import type {BlockContent, Heading, Node, Root, RootContent} from 'mdast';
 import slugify from "voca/slugify";
-import {deprecate} from "node:util";
-import remarkGfm from "remark-gfm";
-
-interface HeadingContent {
-    heading: string;
-    content: string | Parent;
-}
+import remarkGfm from "remark-gfm"
 
 /**
  * Interface representing information about a slug.
@@ -78,30 +72,6 @@ export function filePathToSlug(filePath: string) {
     const base = path.basename(filePath, path.extname(filePath)); // "My File"
     return slugify(base) // "my-file"
 }
-/**
- * Converts a slug to a file name.
- * @deprecate Use the name attribute of the SlugMap instead
- * @param slug The slug to convert.
- * @returns The formatted file name.
- */
-export function slugToFileName(slug: string) {
-    return slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-}
-
-/**
- * From a file path, generate the folder that the file should be part of.
- * For example:
- *   src/content/Folder/My File.md => /content/Folder/
- */
-export function filePathToRoute(filePath: string) {
-    // Get the relative path under "src/content"
-    const relative = path.relative(path.join(process.cwd(), 'src/content'), filePath);
-
-    // Remove file extension
-    const route = relative.replace(/\.(md|mdx)$/, '');
-
-    return `/content/${route}`;
-}
 
 /**
  * Extracts the content under a specific heading in a Markdown file.
@@ -109,7 +79,7 @@ export function filePathToRoute(filePath: string) {
  * @param targetHeading The exact text of the heading to search for.
  * @returns An object with the heading text and its content, or null if not found.
  */
-function extractHeadingContent(markdown: string, targetHeading: string): HeadingContent | null {
+function extractHeadingContent(markdown: string, targetHeading: string): Root | null {
     const parseProcessor = unified().use(remarkParse).use(remarkGfm);
     const tree = parseProcessor.parse(markdown) as Root;
 
@@ -143,11 +113,20 @@ function extractHeadingContent(markdown: string, targetHeading: string): Heading
         }
     });
 
+
     if (!found) return null;
+    if (contentNodes.length === 0) console.warn(`[EXTRACTOR] No content found or parsed under heading "${targetHeading}"`);
+    console.log(`[EXTRACTOR] Extracted content under heading "${targetHeading}":`, toString(contentNodes));
 
-    const contentTree: Parent = { type: 'blockquote', children: contentNodes };
-
-    return { heading: targetHeading, content: contentTree };
+    return {
+        type: 'root',
+        children: [
+            {
+                type: 'blockquote',
+                children: contentNodes as BlockContent[]
+            }
+        ]
+    };
 }
 
 /**
@@ -156,7 +135,7 @@ function extractHeadingContent(markdown: string, targetHeading: string): Heading
  * @param targetHeading Exact text of the heading to extract.
  * @returns Extracted content or null if not found.
  */
-export function extractSection(filePath: string, targetHeading: string): HeadingContent | null {
+export function extractSection(filePath: string, targetHeading: string): Root | null {
     const content = fs.readFileSync(filePath, 'utf-8');
     return extractHeadingContent(content, targetHeading);
 }

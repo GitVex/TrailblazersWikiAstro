@@ -22,7 +22,6 @@ export default defineConfig({
         remarkPlugins: [
             setDefaultLayout,
             remarkGfm,
-            // remarkOfMediaLinksPlugin,
             // If wikilinks don't update, set aliasDivider to "['|']". This will throw an error. After throwing the
             // error, set aliasDivider back to "|". This will update the wikilinks.
             // CHANGING THE ALIAS DIVIDER WILL NOT CHANGE BEHAVIOUR.
@@ -31,18 +30,19 @@ export default defineConfig({
                 pageResolver: (name: string) => pageResolver(name),
                 hrefTemplate: (slug: string) => hrefTemplate(slug),
                 slugMap
-            }]
+            }],
+            remarkOfMediaLinksPlugin,
         ]
 
     }
 });
 
-function pageResolver(name: string) {
+export function pageResolver(name: string) {
     // console.log('name', name);
     return slugify(name);
 }
 
-function hrefTemplate(slug: string) {
+export function hrefTemplate(slug: string) {
     // console.log('slug', slug);
     return cleanURL(slugMap[slug]?.route);
 }

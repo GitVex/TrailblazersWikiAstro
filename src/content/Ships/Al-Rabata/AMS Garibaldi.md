@@ -24,6 +24,7 @@ Known to haul both general and bulk goods, often bridging distant mining colonie
 | ---------------------- | ---------------------------------------------------------------- |
 | **Hull Customization** | Scratchmarks from micromatter of the Areto Microasteroid fields. |
 
+
 ![[Kanton Freighter#Class Specifications]]
 
 

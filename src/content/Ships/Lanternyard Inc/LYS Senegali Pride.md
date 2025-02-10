@@ -25,6 +25,7 @@ Cause of Decommishion: Negligence, Fuel Cell Failure, Orbital Mispiloting
 | **Manufacturer**       | [[Parromax Cargo]]                                                                  |
 | ---------------------- | ----------------------------------------------------------------------------------- |
 | **Hull Customization** | Black painted bridge structure, removed cover on bow sensors and left engine block. |
+
 ![[LF-2500 Freighter#Class Specifications]]
 
 ---

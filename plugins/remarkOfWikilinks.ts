@@ -3,13 +3,6 @@ import type {Root} from 'mdast';
 import {findAndReplace} from "mdast-util-find-and-replace";
 import {extractSection, type SlugMap} from "./util/remarkOfWikiLinks-utils.ts";
 
-/**
- * Match group breakdown:
- *  1.  Optional “!” for embedding
- *  2.  File/page name (anything not #, |, or ] allowed)
- *  3.  Optional heading after "#"
- *  4.  Optional alias after "|"
- */
 const ALL_REGEX = /(!?)\[\[([^#|\]]+)(?:#([^|\]]+))?(?:\|([^\]]+))?]]/g;
 
 type remarkOfWikiLinkPluginOptions = {
@@ -17,118 +10,86 @@ type remarkOfWikiLinkPluginOptions = {
     hrefTemplate?: (pageName: string) => string;
     pageResolver?: (pageName: string) => string;
     class?: string;
+    maxDepth?: number;
 };
 
-const isMedia: (matchedName: string) => boolean = (matchedName) => {
-    return matchedName.includes('.mp4')
-        || matchedName.includes('.webm')
-        || matchedName.includes('.pdf')
-}
+const isMedia = (matchedName: string): boolean =>
+    ['.mp4', '.webm', '.pdf'].some(ext => matchedName.includes(ext));
 
-const isImage: (matchedName: string) => boolean = (matchedName) => {
-    return matchedName.includes('.jpg')
-    || matchedName.includes('.png')
-    || matchedName.includes('.gif')
-}
+const isImage = (matchedName: string): boolean =>
+    ['.jpg', '.png', '.gif'].some(ext => matchedName.includes(ext));
 
 export const remarkOfWikilinksPlugin: Plugin<[remarkOfWikiLinkPluginOptions], Root> = (options) => {
-
     const {
         hrefTemplate = (pageName: string) => `/${pageName}`,
         pageResolver = (pageName: string) => pageName,
         class: className = 'internal',
-        slugMap
+        slugMap,
+        maxDepth = 5
     } = options;
 
-    return (tree) => {
-        findAndReplace(tree, [
-            [
-                ALL_REGEX,
-                (match: string): any => {
+    function processTree(tree: Root, depth = 0) {
+        if (depth > maxDepth) {
+            return;
+        }
 
-                    console.log(`Matched: ${match}`);
+        const replacer = (match: string): any => {
+            const groups = new RegExp(ALL_REGEX).exec(match);
+            if (!groups) {
+                return {type: 'text', value: 'PARSING ERROR'};
+            }
 
+            const embed = groups[1] === '!';
+            const matchedName = groups[2] as string;
+            const heading = groups[3];
+            const alias = groups[4];
 
-                    const groups = new RegExp(ALL_REGEX).exec(match);
-                    if (!groups) {
-                        console.warn(`Could not parse link: ${match}`);
-                        return {type: 'text', value: 'PARSING ERROR'}; // Fallback to plain text
-                    }
+            const slug = pageResolver(matchedName);
+            const sluggedHeading = pageResolver(heading);
 
-                    const embed = groups[1] === '!';
-                    const matchedName = groups[2] as string;
-                    const heading = groups[3];
-                    const alias = groups[4];
-
-                    const slug = pageResolver(matchedName);
-                    const sluggedHeading = pageResolver(heading)
-
-                    if (embed) {
-                        if(isImage(matchedName)) {
-                            return {
-                                type: 'image',
-                                url: `/src/images/${matchedName}`,
-                                data: {
-                                    hProperties: {
-                                        class: 'media'
-                                    }
-                                }
-                            }
-                        } else if (isMedia(matchedName)) {
-                            return {
-                                type: 'text',
-                                value: `<<Oops, no media embeds yet>>`
-                            }
-                        }
-
-                        // Only for cross note embeds. Not for media yet
-
-                        const filePath = slugMap[slug]?.filePath;
-
-                        if (filePath && heading) {
-                            console.log(`Getting ${heading} from:`, filePath)
-                            const content = extractSection(filePath, heading);
-                            console.log(`Content:`, content)
-                            return content?.content;
-                        }
-
-                        return {
-                            type: 'text',
-                            value: `<<Oops, something went wrong. Could not embed "${slug}" and Heading "${heading}">>`
-                        }
-                    }
-
-                    const href = hrefTemplate(slug ?? '') + (sluggedHeading ? `#${sluggedHeading.toLowerCase()}` : '');
-
-                    if (href === 'undefined') {
-                        console.warn(`Could not resolve page: ${matchedName}`);
-
-                        return {
-                            type: 'html',
-                            value: `<span class="not-resolved">${alias ?? matchedName}</span>`
-                        };
-
-                    }
-
+            if (embed) {
+                if (isImage(matchedName)) {
                     return {
-                        type: 'link',
-                        url: href,
-                        data:
-                            {
-                                hProperties: {
-                                    class: className
-                                }
-                            },
-                        children: [
-                            {
-                                type: 'text',
-                                value: alias ?? matchedName
-                            }
-                        ]
+                        type: 'image',
+                        url: `/src/images/${matchedName}`,
+                        data: {hProperties: {class: 'image-embed'}}
                     };
+                } else if (isMedia(matchedName)) {
+                    return {type: 'text', value: `<<Oops, no media embeds yet>>`};
                 }
-            ]
-        ])
-        ;
+
+                const filePath = slugMap[slug]?.filePath;
+
+                if (filePath && heading) {
+                    const subTree = extractSection(filePath, heading);
+                    if (!subTree) return;
+                    return subTree.children[0];
+                }
+
+                return {
+                    type: 'text',
+                    value: `<<Oops, something went wrong. Could not embed "${slug}" and Heading "${heading}">>`
+                };
+            }
+
+            const href = hrefTemplate(slug ?? '') + (sluggedHeading ? `#${sluggedHeading.toLowerCase()}` : '');
+
+            if (href === 'undefined') {
+                return {type: 'html', value: `<span class="not-resolved">${alias ?? matchedName}</span>`};
+            }
+
+            return {
+                type: 'link',
+                url: href,
+                data: {hProperties: {class: className}},
+                children: [{type: 'text', value: alias ?? matchedName}]
+            };
+        };
+
+        findAndReplace(tree, [ALL_REGEX, replacer]);
     }
-}
+
+    return (tree: Root) => {
+        processTree(tree);
+    };
+};
