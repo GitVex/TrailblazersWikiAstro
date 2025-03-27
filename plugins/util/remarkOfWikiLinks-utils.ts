@@ -116,7 +116,7 @@ function extractHeadingContent(markdown: string, targetHeading: string): Root | 
 
     if (!found) return null;
     if (contentNodes.length === 0) console.warn(`[EXTRACTOR] No content found or parsed under heading "${targetHeading}"`);
-    console.log(`[EXTRACTOR] Extracted content under heading "${targetHeading}":`, toString(contentNodes));
+    // console.log(`[EXTRACTOR] Extracted content under heading "${targetHeading}":`, toString(contentNodes));
 
     return {
         type: 'root',

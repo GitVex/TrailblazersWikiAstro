@@ -1,20 +1,22 @@
 ---
 import './styles/Explorer.scss'
-import {getCollection} from "astro:content";
-import {filePathToSlug, getSlugMap} from "../../plugins/util/remarkOfWikiLinks-utils";
-import capitalize from "voca/capitalize";
+import '../styles/global.css'
+import { getCollection } from "astro:content";
+import { filePathToSlug, getSlugMap } from "../../plugins/util/remarkOfWikiLinks-utils";
+import ExplorerItem from "ExplorerItem.astro";
 
 const slugMap = getSlugMap();
 
-/** Converts file paths into a nested tree object. */
+interface TreeObject {
+    [key: string]: TreeObject | any[];
+}
+
 async function buildTree() {
     const files = await getCollection("content");
-
-    const tree = {};
+    const tree: TreeObject = {};
 
     files.forEach(file => {
-
-        const fpath = file.filePath
+        const fpath = file.filePath;
         if (!fpath) return;
         const slug = filePathToSlug(fpath);
         const route = slugMap[slug].route;
@@ -36,46 +38,45 @@ async function buildTree() {
     return tree;
 }
 
-/** Renders the nested tree as HTML lists. */
-function renderTree(tree, path = "") {
-    return Object.entries(tree).map(([key, value]) => {
-        if (Array.isArray(value)) {
-            // key is a "file" in the final segment
-            return `<li class="file-label" ><a href="${slugMap[key].route}">${slugMap[key].name}</a></li>`;
-        } else {
-            // key is a folder
-            return `
-        <li class="folder-item">
-          <p class="folder-label">${key.split('-').map((string: string) => capitalize(string)).join(' ')}</p>
-          <ul>
-            ${renderTree(value, path + "/" + key).join("")}
-          </ul>
-        </li>
-      `;
-        }
-    });
-}
-
 const tree = await buildTree();
-const renderedTree = renderTree(tree)
 ---
 
-<html>
-<head>
-    <title>Markdown Tree Explorer</title>
-</head>
-<body>
 <div class="explorer">
     <nav>
-        <!--<h1 style="color: #ffb022; font-size: 2rem; margin-bottom: .5rem">Explorer</h1>-->
-        <ul>
-            <Fragment set:html={renderedTree}/>
+        <ul class="overflow-scroll">
+            {Object.entries(tree).map(([key, value]) => {
+                if (Array.isArray(value)) {
+                    return (
+                            <li class="file-label">
+                                <a href={slugMap[key].route}>{slugMap[key].name}</a>
+                            </li>
+                    );
+                } else {
+                    return (
+                            <ExplorerItem
+                                    name={key}
+                                    children={value}
+                                    path=""
+                                    slugMap={slugMap}
+                            />
+                    );
+                }
+            })}
         </ul>
     </nav>
 </div>
-</body>
-</html>
 
-<style>
+<style lang="scss">
+  .file-label {
+    padding-left: 1.5rem;
 
+    a {
+      text-decoration: none;
+      color: inherit;
+
+      &:hover {
+        color: #ffb022;
+      }
+    }
+  }
 </style>

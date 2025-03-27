@@ -1,5 +1,6 @@
 ---
 import './styles/BaseLayout.scss';
+import '../styles/global.css'
 import Explorer from "../components/Explorer.astro";
 const {frontmatter: metadata} = Astro.props;
 const title = metadata.frontmatter ? metadata.frontmatter.title ?? "T'is should be the title" : metadata.title;
@@ -12,19 +13,35 @@ const title = metadata.frontmatter ? metadata.frontmatter.title ?? "T'is should 
     <title>{title}</title>
 </head>
 <body id="file_baselayout">
-<div class="grid grid-cols-[25%_60%_15%] grid-rows-[120px_minmax(900px,_1fr)]">
-    <div class="explorer"/>
-    <nav class="top-middle"/>
-    <div class="top-right"/>
-    <Explorer/>
-    <section class="px-10 border-[#585858] border-opacity-20 border-r-4 mb-20">
-        <h1 style="color: #ffb022; font-size: 2.5rem; margin-bottom: 0">{title}</h1>
-        <a href="/" style="opacity: .2;">Back to the Index</a>
-        <div class="file-content">
-            <slot/>
+<div class="flex flex-row h-full">
+    <!-- Left Sidebar -->
+    <div class="explorer-wrapper max-w-[20%] h-full">
+            <Explorer/>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="flex flex-col w-[75%] h-full">
+        <!-- Top Header Row -->
+        <div class="flex h-[120px] w-full">
+            <nav class="top-middle w-[60%]"/>
+            <div class="top-right w-[15%]"/>
         </div>
-    </section>
-    <div/>
+
+
+        <div class="flex flex-1 min-h-[900px]">
+            <!-- Main Content Section -->
+            <section class="w-[85%] px-10 border-[#585858] border-opacity-20 border-r-4 mb-20">
+                <h1 style="color: #ffb022; font-size: 2.5rem; margin-bottom: 0">{title}</h1>
+                <a href="/" style="opacity: .2;">Back to the Index</a>
+                <div class="file-content">
+                    <slot/>
+                </div>
+            </section>
+
+            <!-- Right Spacer -->
+            <div class="w-[15%]"/>
+        </div>
+    </div>
 </div>
 </body>
 </html>

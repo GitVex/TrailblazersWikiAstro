@@ -1,0 +1,48 @@
+---
+import type {TreeObject} from "utils/types";
+import "./styles/ExplorerItem.scss"
+import capitalize from "voca/capitalize";
+
+interface Props {
+    name: string;
+    children: TreeObject;
+    path: string;
+    slugMap: Record<string, any>;
+}
+
+const {name, children, path, slugMap} = Astro.props;
+---
+
+<li class="folder-item">
+    <p class="folder-label">{name.split('-').map((string) => capitalize(string)).join(' ')}</p>
+    <ul class="folder-contents">
+        {Object.entries(children).map(([key, value]) => {
+            if (Array.isArray(value)) {
+                return (
+                        <li class="file-label">
+                            <a href={slugMap[key].route}>{slugMap[key].name}</a>
+                        </li>
+                );
+            } else {
+                return (
+                        <ExplorerItem
+                                name={key}
+                                children={value}
+                                path={`${path}/${key}`}
+                                slugMap={slugMap}
+                        />
+                );
+            }
+        })}
+    </ul>
+</li>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.folder-label').forEach(label => {
+            label.addEventListener('click', () => {
+                const folderItem = label.closest('.folder-item');
+                folderItem.classList.toggle('expanded');
+            });
+        });
+    });
+</script>

@@ -1,5 +1,13 @@
 // BaseLayout.scss
 
+
+.explorer-wrapper {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
 blockquote {
   margin-top: .1rem;
   margin-bottom: .1rem;

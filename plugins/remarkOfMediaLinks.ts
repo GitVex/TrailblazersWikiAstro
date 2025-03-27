@@ -15,7 +15,7 @@ export const remarkOfMediaLinksPlugin: Plugin<[], Root> = () => {
 
                     const groups = new RegExp(IMG_REGEX).exec(match);
                     if (!groups) {
-                        console.warn(`[PROCESSOR] Could not parse link: ${match}`);
+                        // console.warn(`[PROCESSOR] Could not parse link: ${match}`);
                         return {type: 'text', value: 'PARSING ERROR'};
                     }
 

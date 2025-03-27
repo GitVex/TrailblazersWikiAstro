@@ -3,9 +3,9 @@
 
 .explorer {
   color: #eef5ff;
-  //noinspection CssUnknownTarget
   background: url("/noise.png") repeat, #040404;
   background-blend-mode: soft-light;
+  font-size: .85rem;
 }
 
 ul {
@@ -14,7 +14,7 @@ ul {
   list-style: none;
 
   li {
-    padding: 0.2rem;
+    padding-bottom: 0.1rem;
   }
 }
 
@@ -29,7 +29,7 @@ ul {
 
 .folder-label, .file-label {
   margin: 0;
-  padding: 0.2rem;
+  // padding: 0.2rem;
   border-radius: 4px;
   transition: all 0.3s ease;
 
