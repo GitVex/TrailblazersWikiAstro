@@ -56,7 +56,7 @@ const tree = await buildTree();
                 } else {
                     return (
                             <ExplorerItem
-                                    client:load
+                                    client:only="preact"
                                     name={key}
                                     items={value}
                                     path={'/' + key}

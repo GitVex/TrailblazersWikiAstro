@@ -8,7 +8,6 @@ export const remarkOfMediaLinksPlugin: Plugin<[], Root> = () => {
 
     return (tree: Root) => {
         findAndReplace(tree, [
-            // Match Obsidian embeds and replace with Markdown images
             [
                 IMG_REGEX,
                 (match: string) => {

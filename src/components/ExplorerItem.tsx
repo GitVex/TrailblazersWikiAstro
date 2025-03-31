@@ -17,7 +17,7 @@ interface Props {
 }
 
 export default function ExplorerItem({name, items, path, slugMap}: Props) {
-    const isExpanded = path === '/content' ? true : explorerStore.folders[path] ?? false;
+    let isExpanded = path === '/content' ? true : explorerStore.folders[path] ?? false
 
     const toggle = () => {
         explorerStore.toggleFolder(path);
