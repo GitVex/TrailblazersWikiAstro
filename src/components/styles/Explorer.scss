@@ -3,8 +3,6 @@
 
 .explorer {
   color: #eef5ff;
-  background: url("/noise.png") repeat, #040404;
-  background-blend-mode: soft-light;
   font-size: .85rem;
 }
 
@@ -35,5 +33,18 @@ ul {
 
   &:hover {
     background-color: rgba(89, 89, 89, 0.2);
+  }
+}
+
+.file-label {
+  padding-left: 1.5rem;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      color: #ffb022;
+    }
   }
 }

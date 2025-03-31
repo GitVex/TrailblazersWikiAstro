@@ -6,6 +6,9 @@
   top: 0;
   height: 100vh;
   overflow-y: auto;
+
+  background: url("/noise.png") repeat, #040404;
+  background-blend-mode: soft-light;
 }
 
 blockquote {

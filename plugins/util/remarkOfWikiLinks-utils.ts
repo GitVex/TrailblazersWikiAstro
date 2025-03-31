@@ -44,6 +44,8 @@ export function getSlugMap(): SlugMap {
         };
     }
 
+    // console.log(slugMap)
+
     return slugMap;
 }
 

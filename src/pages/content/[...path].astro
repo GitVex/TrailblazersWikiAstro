@@ -2,27 +2,40 @@
 import {getCollection, render} from "astro:content";
 import type {CollectionEntry} from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import {getDynamicTitle} from "../../components/utils/dynamicTitle";
-import slugify from "voca/slugify";
-import { getSlugMap } from "../../../plugins/util/remarkOfWikiLinks-utils";
+import {getSlugMap} from "../../../plugins/util/remarkOfWikiLinks-utils";
+import {search} from 'fast-fuzzy';
 
 export async function getStaticPaths() {
     const allContent = await getCollection("content");
+    const slugMap = getSlugMap();
 
     return allContent.map((content) => {
-        const path = content.id
+        let slug = content.id.split('/').slice(-1)[0];
+        let route = slugMap[slug]?.route;
 
-        const slugged = path.split('/').map(slugify).join('/')
-        //console.log(`${path} -> ${slugged}`)
+        if (!route) {
+            const candidate = search(slug, Object.keys(slugMap))[0];
+            console.warn(`[WARN] No route found for slug: ${slug} - candidate: ${candidate}`);
+            route = slugMap[candidate]?.route;
+            slug = candidate;
+        }
+
+        const slugInfo = slugMap[slug];
+
+        // Remove leading '/content' if present
+        const path = route.replace(/^\/content/, '').split('/').filter(Boolean).join('/');
+
+        console.log(`[INFO] Generating static path for ${slug} -> ${path}`);
 
         return {
-            params: {path: slugged},
-            //
-            props: {content},
+            params: {path},
+            props: {content, title: slugInfo.name},
         };
-    })
+    }).filter(Boolean); // Filter out null entries
 }
-const {content} = Astro.props as { content: CollectionEntry<"content"> };
+
+const {content, title} = Astro.props as { content: CollectionEntry<"content"> };
+// console.log(content)
 const slugMap = getSlugMap();
 const slug = content.id.split('/').slice(-1)[0]
 
@@ -31,7 +44,7 @@ const Rendered = renderResult.Content
 const frontmatter = {
     // @ts-ignore
     ...content.rendered?.metadata?.frontmatter,
-    title: slugMap[slug].name,
+    title
 }
 ---
 

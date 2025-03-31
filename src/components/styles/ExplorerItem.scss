@@ -3,7 +3,7 @@
   margin: 0;
   padding: 0;
 
-  .folder-label {
+  > .folder-label {
     cursor: pointer;
     user-select: none;
     padding: 0.25rem 0;
@@ -12,10 +12,15 @@
     align-items: center;
 
     &::before {
-      content: '▶';
+      content: '';
       display: inline-block;
       margin-right: 0.5rem;
-      font-size: 0.8em;
+      width: 1em;
+      height: 1em;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='white' class='size-6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m8.25 4.5 7.5 7.5-7.5 7.5' /%3E%3C/svg%3E%0A");
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
       transition: transform 0.2s ease;
     }
 
@@ -25,18 +30,38 @@
   }
 
   &.expanded {
-    .folder-label::before {
+    > .folder-label::before {
       transform: rotate(90deg);
     }
 
-    .folder-contents {
+    > .folder-contents {
       display: block;
     }
   }
 
+  &.collapsed {
+    > .folder-contents {
+      display: none;
+    }
+  }
+
   .folder-contents {
-    display: none;
     padding-left: 1rem;
     margin: 0;
+  }
+}
+
+.file-label {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem 0;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }

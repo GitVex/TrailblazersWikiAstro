@@ -2,6 +2,7 @@
 import type {TreeObject} from "utils/types";
 import "./styles/ExplorerItem.scss"
 import capitalize from "voca/capitalize";
+import ExplorerItem from "./ExplorerItem.astro";
 
 interface Props {
     name: string;
@@ -12,7 +13,6 @@ interface Props {
 
 const {name, children, path, slugMap} = Astro.props;
 ---
-
 <li class="folder-item">
     <p class="folder-label">{name.split('-').map((string) => capitalize(string)).join(' ')}</p>
     <ul class="folder-contents">
@@ -27,7 +27,7 @@ const {name, children, path, slugMap} = Astro.props;
                 return (
                         <ExplorerItem
                                 name={key}
-                                children={value}
+                                items={value}
                                 path={`${path}/${key}`}
                                 slugMap={slugMap}
                         />
@@ -36,6 +36,7 @@ const {name, children, path, slugMap} = Astro.props;
         })}
     </ul>
 </li>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.folder-label').forEach(label => {

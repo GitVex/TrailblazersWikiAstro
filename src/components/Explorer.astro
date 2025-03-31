@@ -1,9 +1,9 @@
 ---
 import './styles/Explorer.scss'
 import '../styles/global.css'
-import { getCollection } from "astro:content";
-import { filePathToSlug, getSlugMap } from "../../plugins/util/remarkOfWikiLinks-utils";
-import ExplorerItem from "ExplorerItem.astro";
+import {getCollection} from "astro:content";
+import {filePathToSlug, getSlugMap} from "../../plugins/util/remarkOfWikiLinks-utils";
+import ExplorerItem from "./ExplorerItem.tsx";
 
 const slugMap = getSlugMap();
 
@@ -35,7 +35,9 @@ async function buildTree() {
         }
     });
 
-    return tree;
+    // console.log(tree[''])
+
+    return tree[''];
 }
 
 const tree = await buildTree();
@@ -54,9 +56,10 @@ const tree = await buildTree();
                 } else {
                     return (
                             <ExplorerItem
+                                    client:load
                                     name={key}
-                                    children={value}
-                                    path=""
+                                    items={value}
+                                    path={'/' + key}
                                     slugMap={slugMap}
                             />
                     );
@@ -65,18 +68,3 @@ const tree = await buildTree();
         </ul>
     </nav>
 </div>
-
-<style lang="scss">
-  .file-label {
-    padding-left: 1.5rem;
-
-    a {
-      text-decoration: none;
-      color: inherit;
-
-      &:hover {
-        color: #ffb022;
-      }
-    }
-  }
-</style>
