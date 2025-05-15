@@ -4,6 +4,7 @@ import '../styles/global.css'
 import {getCollection} from "astro:content";
 import {filePathToSlug, getSlugMap} from "../../plugins/util/remarkOfWikiLinks-utils";
 import ExplorerItem from "./ExplorerItem.tsx";
+import Login from "./Login.tsx";
 
 const slugMap = getSlugMap();
 
@@ -43,9 +44,12 @@ async function buildTree() {
 const tree = await buildTree();
 ---
 
-<div class="explorer">
+<div class="explorer ml-5 my-5">
+    <div class="mb-4">
+        <Login client:only="preact"/>
+    </div>
     <nav>
-        <ul class="overflow-scroll">
+        <ul class="overflow-x-hidden">
             {Object.entries(tree).map(([key, value]) => {
                 if (Array.isArray(value)) {
                     return (
