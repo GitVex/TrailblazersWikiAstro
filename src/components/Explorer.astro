@@ -45,9 +45,6 @@ const tree = await buildTree();
 ---
 
 <div class="explorer ml-5 my-5">
-    <div class="mb-4">
-        <Login client:only="preact"/>
-    </div>
     <nav>
         <ul class="overflow-x-hidden">
             {Object.entries(tree).map(([key, value]) => {

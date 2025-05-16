@@ -4,13 +4,14 @@ import {useState} from "preact/hooks";
 import type {JSX} from "preact";
 
 export default function Login() {
-    const {user, setUser} = useUser();
+    // const {user, setUser} = useUser();
     const [username, setUsername] = useState('');
 
     const handleLogin = (username: string) => {
         const foundUser = userlist.find(u => u.name === username);
         if (foundUser) {
-            setUser(foundUser);
+            // setUser(foundUser);
+            alert(`Welcome, ${foundUser.name}!`);
         } else {
             alert('User not found');
         }
@@ -23,18 +24,17 @@ export default function Login() {
 
     return (
         <div className="flex flex-row ">
-            {user ? (
-                <div>Welcome, {user.name}!</div>
-            ) : (
-                <>
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        onInput={handleInputChange}
-                    />
-                    <button onClick={() => handleLogin(username)}>Login</button>
-                </>
-            )}
+            <p>
+                <span className="text-2xl font-bold">Login</span>
+            </p>
+            <>
+                <input
+                    type="text"
+                    placeholder="Username"
+                    onInput={handleInputChange}
+                />
+                <button onClick={() => handleLogin(username)}>Login</button>
+            </>
         </div>
     );
 }

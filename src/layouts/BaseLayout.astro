@@ -3,6 +3,7 @@ import './styles/BaseLayout.scss';
 import '../styles/global.css'
 import Explorer from "../components/Explorer.astro";
 import UserProvider from "../components/contexts/UserContext.tsx";
+import Login from "../components/Login";
 
 
 const {frontmatter: metadata} = Astro.props;
@@ -17,39 +18,42 @@ const allowedUsers = metadata.frontmatter?.allowedUsers ?? [];
     <title>{title}</title>
 </head>
 <body id="file_baselayout">
-<UserProvider client:only="preact">
-    <div class="flex flex-row h-full mr-0">
-        <!-- Left Sidebar -->
-        <div class="explorer-wrapper w-[25%] h-screen">
-            <Explorer/>
+
+<div class="flex flex-row h-full mr-0">
+    <!-- Left Sidebar -->
+    <div class="explorer-wrapper w-[25%] h-screen">
+        <Explorer/>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="flex flex-col w-[60%] h-full">
+        <!-- Top Header Row -->
+        <div class="flex h-[120px] w-full">
+            <nav class="top-middle w-[60%]"/>
+
+            <div class="top-right w-[15%]">
+                <Login client:only="preact"/>
+            </div>
         </div>
 
-        <!-- Main Content Area -->
-        <div class="flex flex-col w-[60%] h-full">
-            <!-- Top Header Row -->
-            <div class="flex h-[120px] w-full">
-                <nav class="top-middle w-[60%]"/>
-                <div class="top-right w-[15%]"/>
-            </div>
 
+        <div class="flex md:flex-col flex-1 min-h-[900px]">
+            <!-- Main Content Section -->
+            <section class="w-[85%] px-10 border-[#585858] border-opacity-20 border-r-4 mb-20">
+                <h1 style="color: #ffb022; font-size: 2.5rem; margin-bottom: 0">{title}</h1>
+                <a href="/" style="opacity: .2;">Back to the Index</a>
+                <div class="file-content">
+                    <p>{allowedUsers}</p>
+                    <slot/>
+                </div>
+            </section>
 
-            <div class="flex md:flex-col flex-1 min-h-[900px]">
-                <!-- Main Content Section -->
-                <section class="w-[85%] px-10 border-[#585858] border-opacity-20 border-r-4 mb-20">
-                    <h1 style="color: #ffb022; font-size: 2.5rem; margin-bottom: 0">{title}</h1>
-                    <a href="/" style="opacity: .2;">Back to the Index</a>
-                    <div class="file-content">
-                        <p>{allowedUsers}</p>
-                        <slot/>
-                    </div>
-                </section>
-
-                <!-- Right Spacer -->
-                <div class="md:w-[15%] md:h-[200px]"/>
-            </div>
+            <!-- Right Spacer -->
+            <div class="md:w-[15%] md:h-[200px]"/>
         </div>
     </div>
-</UserProvider>
+</div>
+
 </body>
 </html>
 
