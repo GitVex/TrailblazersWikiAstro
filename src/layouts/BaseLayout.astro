@@ -2,7 +2,6 @@
 import './styles/BaseLayout.scss';
 import '../styles/global.css'
 import Explorer from "../components/Explorer.astro";
-import UserProvider from "../components/contexts/UserContext.tsx";
 import Login from "../components/Login";
 
 
@@ -31,7 +30,7 @@ const allowedUsers = metadata.frontmatter?.allowedUsers ?? [];
         <div class="flex h-[120px] w-full">
             <nav class="top-middle w-[60%]"/>
 
-            <div class="top-right w-[15%]">
+            <div class="top-right w-[40%]">
                 <Login client:only="preact"/>
             </div>
         </div>
