@@ -8,17 +8,16 @@ import type {Parent} from 'unist';
 import type {BlockContent, Heading, Node, Root, RootContent} from 'mdast';
 import slugify from "voca/slugify";
 import remarkGfm from "remark-gfm"
+import matter from "gray-matter"
 
 /**
  * Interface representing information about a slug.
  */
 interface SlugInfo {
-    /** The name of the slug. */
     name: string;
-    /** The route associated with the slug. */
     route: string;
-    /** The file path of the slug. */
     filePath: string;
+    allowedUsers?: string[];
 }
 
 /**
@@ -37,10 +36,15 @@ export function getSlugMap(): SlugMap {
         const relativePath = path.dirname(path.relative(path.join(process.cwd(), 'src/content'), filePath));
         const route = '/content/' + relativePath.split('\\').map(slugify).join('/').concat('/', slug)
 
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
+        const { data: frontmatter } = matter(fileContent);
+        const allowedUsers = frontmatter.allowedUsers ? Array.of(frontmatter.allowedUsers) : [];
+
         slugMap[slug] = {
             name: path.basename(filePath, path.extname(filePath)),
             route: route,
-            filePath: filePath
+            filePath: filePath,
+            allowedUsers: allowedUsers
         };
     }
 

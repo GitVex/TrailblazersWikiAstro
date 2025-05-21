@@ -4,6 +4,7 @@ import type {CollectionEntry} from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import {getSlugMap} from "../../../plugins/util/remarkOfWikiLinks-utils";
 import {search} from 'fast-fuzzy';
+import Content from "../../components/Content"
 
 export async function getStaticPaths() {
     const allContent = await getCollection("content");
@@ -50,6 +51,8 @@ const frontmatter = {
 
 <main>
     <BaseLayout frontmatter={{frontmatter}}>
-        <Rendered/>
+        <Content client:only="preact" slug={slug} slugMap={slugMap}>
+            <Rendered/>
+        </Content>
     </BaseLayout>
 </main>

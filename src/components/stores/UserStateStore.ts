@@ -1,4 +1,5 @@
 import { signal, effect } from '@preact/signals';
+import {userlist} from "../types.ts";
 
 
 const initialUser = ''
@@ -32,4 +33,15 @@ export function loginUser(username: string) {
 
 export function logoutUser() {
     user.value = initialUser
+}
+
+export function isAuthed(allowedUsers: string[] | undefined) {
+    if (userlist.find(u => u.name === user.value)?.isAdmin) {
+        return true
+    } else if (!allowedUsers || allowedUsers.length === 0) {
+        return false
+    } else if (allowedUsers.includes('all')) {
+        return true
+    }
+    return allowedUsers.includes(user.value)
 }
