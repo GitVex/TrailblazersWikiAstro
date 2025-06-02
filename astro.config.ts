@@ -7,8 +7,9 @@ import remarkGfm from 'remark-gfm';
 
 import preact from '@astrojs/preact';
 import {remarkOfWikilinksPlugin} from "./plugins/remarkOfWikilinks.ts";
-import { remarkOfMediaLinksPlugin } from "./plugins/remarkOfMediaLinks.ts";
-import { getSlugMap } from "./plugins/util/remarkOfWikiLinks-utils.ts";
+import {remarkOfMediaLinksPlugin} from "./plugins/remarkOfMediaLinks.ts";
+import {remarkASTLogger} from "./plugins/util/remarkASTLogger.ts";
+import {getSlugMap} from "./plugins/util/remarkOfWikiLinks-utils.ts";
 import slugify from "voca/slugify";
 
 import tailwindcss from '@tailwindcss/vite';
@@ -19,29 +20,37 @@ const slugMap = getSlugMap();
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [preact()],
+    integrations: [preact()],
 
-  markdown: {
-      remarkPlugins: [
-          setDefaultLayout,
-          remarkGfm,
-          // If wikilinks don't update, set aliasDivider to "['|']". This will throw an error. After throwing the
-          // error, set aliasDivider back to "|". This will update the wikilinks.
-          // CHANGING THE ALIAS DIVIDER WILL NOT CHANGE BEHAVIOUR.
-          [remarkOfWikilinksPlugin, {
-              aliasDivider: '|',
-              pageResolver: (name: string) => pageResolver(name),
-              hrefTemplate: (slug: string) => hrefTemplate(slug),
-              slugMap
-          }],
-          remarkOfMediaLinksPlugin,
-      ]
+    markdown: {
+        remarkPlugins: [
+            [remarkASTLogger, { index: 1 }],
 
-  },
+            setDefaultLayout,
 
-  vite: {
-    plugins: [tailwindcss()]
-  }
+            [remarkASTLogger, { index: 2 }],
+
+            // If wikilinks don't update, set aliasDivider to some other string. This will update the wikilinks.
+            // CHANGING THE ALIAS DIVIDER WILL NOT CHANGE BEHAVIOUR.
+            [remarkOfWikilinksPlugin, {
+                aliasDivider: 'a',
+                pageResolver: (name: string) => pageResolver(name),
+                hrefTemplate: (slug: string) => hrefTemplate(slug),
+                slugMap
+            }],
+
+            //[remarkASTLogger, { index: 3 }],
+
+            remarkOfMediaLinksPlugin,
+
+            //[remarkASTLogger, { index: 4 }]
+        ]
+
+    },
+
+    vite: {
+        plugins: [tailwindcss()]
+    }
 });
 
 export function pageResolver(name: string) {

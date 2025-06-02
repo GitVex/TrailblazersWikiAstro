@@ -26,7 +26,7 @@ export async function getStaticPaths() {
         // Remove leading '/content' if present
         const path = route.replace(/^\/content/, '').split('/').filter(Boolean).join('/');
 
-        console.log(`[INFO] Generating static path for ${slug} -> ${path}`);
+        // console.log(`[INFO] Generating static path for ${slug} -> ${path}`);
 
         return {
             params: {path},

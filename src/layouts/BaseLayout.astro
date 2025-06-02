@@ -21,6 +21,9 @@ const allowedUsers = metadata.frontmatter?.allowedUsers ?? [];
 <div class="flex flex-row h-full mr-0">
     <!-- Left Sidebar -->
     <div class="explorer-wrapper w-[25%] h-screen">
+        <div class="top-right w-[40%]">
+            <Login client:only="preact"/>
+        </div>
         <Explorer/>
     </div>
 
@@ -30,9 +33,7 @@ const allowedUsers = metadata.frontmatter?.allowedUsers ?? [];
         <div class="flex h-[120px] w-full">
             <nav class="top-middle w-[60%]"/>
 
-            <div class="top-right w-[40%]">
-                <Login client:only="preact"/>
-            </div>
+
         </div>
 
 
