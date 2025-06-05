@@ -1,7 +1,7 @@
 // mdast-custom.d.ts
 
 import type {Parent} from 'unist';
-import type {Literal, Text} from "mdast"; // Or `import type { Literal } from 'mdast'` if more appropriate
+import type {Literal, PhrasingContent} from "mdast"; // Or `import type { Literal } from 'mdast'` if more appropriate
 import type {Node} from 'unist';
 
 /**
@@ -17,7 +17,7 @@ export interface RedactionNode extends Parent {
 export interface InlineRedactionNode extends Literal {
     type: 'inlineRedaction';
     level: number;
-    children: Text;
+    children: PhrasingContent[];
 }
 
 // Augment the 'mdast' module to make it aware of 'RedactionNode'

@@ -3,7 +3,6 @@ import {defineConfig} from 'astro/config';
 
 // import tailwind from '@astrojs/tailwind';
 import {setDefaultLayout} from "./plugins/defaultLayouts-plugin.mjs";
-import remarkGfm from 'remark-gfm';
 
 import preact from '@astrojs/preact';
 import {remarkOfWikilinksPlugin} from "./plugins/remarkOfWikilinks.ts";
@@ -34,7 +33,7 @@ export default defineConfig({
             // If wikilinks don't update, set aliasDivider to some other string. This will update the wikilinks.
             // CHANGING THE ALIAS DIVIDER WILL NOT CHANGE BEHAVIOUR.
             [remarkOfWikilinksPlugin, {
-                aliasDivider: 'a',
+                aliasDivider: 'b',
                 pageResolver: (name: string) => pageResolver(name),
                 hrefTemplate: (slug: string) => hrefTemplate(slug),
                 slugMap

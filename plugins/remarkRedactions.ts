@@ -2,10 +2,11 @@ import {visitParents} from 'unist-util-visit-parents';
 import type {Plugin} from 'unified';
 import type {Node, Root} from 'mdast';
 import type {InlineRedactionNode, RedactionNode} from "./util/mdast-custom";
-import {findAndReplace} from "mdast-util-find-and-replace";
+import {findAndReplace, type FindAndReplaceTuple} from "mdast-util-find-and-replace";
 import type {VFile} from "vfile";
+import {parseInlineRedactionContent} from "./util/remarkRedactions-utils.ts";
 
-const DEFAULT_REGEXP = /§(\d+)§(.*?)§§/g
+const DEFAULT_REGEXP = /§(\d+)§(.*)§§/g
 const REDACTION_START = /^§(\d+)§$/;
 const REDACTION_END = /^§§$/;
 
@@ -37,23 +38,22 @@ export const remarkRedactionsPlugin: Plugin<[], Root> = () => {
         let markerStack: { startIndex: number, level: number }[] = [];
 
         // Simplest Case: Redaction in a paragraph
-        findAndReplace(tree, [
-            [DEFAULT_REGEXP, (value, levelStr: string, content: string) => {
-
+        // Construct the replacer
+        const replacer: FindAndReplaceTuple = [
+            DEFAULT_REGEXP,
+            (value, levelStr: string, content: string) => {
                 // console.log("found:", value, '|', levelStr);
-
                 const level = parseInt(levelStr, 10);
                 return {
                     type: 'inlineRedaction',
                     level: level,
-                    children: {
-                        type: 'text',
-                        value: content.trim() || '[REDACTED]' // Default text if content is empty
-                    }
+                    children: parseInlineRedactionContent(content, file)
                 } as InlineRedactionNode;
-            }]
-        ]);
+            }
+        ]
 
+        // Execute
+        findAndReplace(tree, replacer);
 
         // Handle Block Redactions
         visitParents(tree, 'text', (node, ancestors) => {
@@ -84,12 +84,15 @@ export const remarkRedactionsPlugin: Plugin<[], Root> = () => {
 
                 const content = ancestors[0].children.slice(startNode.startIndex + 1, endIndex);
 
-                redactions.push({
-                    startIndex: startNode.startIndex,
-                    endIndex,
-                    content,
-                    level: startNode.level
-                });
+                // Only add the redaction if it is a top level one (top of the nest)
+                if (markerStack.length === 0) {
+                    redactions.push({
+                        startIndex: startNode.startIndex,
+                        endIndex,
+                        content,
+                        level: startNode.level
+                    })
+                }
             }
         })
 
@@ -110,7 +113,7 @@ export const remarkRedactionsPlugin: Plugin<[], Root> = () => {
         }
         let idxPointer = 0
 
-        console.log('\n\n [REDACTIONS] Block Redactions found:', redactions, '\n\n');
+        // console.log('\n\n [REDACTIONS] Block Redactions found:', redactions, '\n\n');
 
 
         // Now we have all the redactions, we can reconstruct the in the tree with the Redaction nodes spliced in.
@@ -120,11 +123,14 @@ export const remarkRedactionsPlugin: Plugin<[], Root> = () => {
             // Add nodes before current redaction
             reconTree.children.push(...tree.children.slice(idxPointer, startIndex));
 
+            const tempRoot = {type: 'root', children: content} as Root;
+            const processedContent = processTree(tempRoot, file).children;
+
             // Construct the new node
             const redactionNode: RedactionNode = {
                 type: 'redaction',
                 level,
-                children: content
+                children: processedContent
             };
 
             // Add the node to the new tree
