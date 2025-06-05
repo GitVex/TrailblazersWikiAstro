@@ -20,6 +20,8 @@ aliases:
 
 Danube’s iconography often features minimalist, sleek designs with a recurring motif of a spiral—a symbol of infinite discovery.
 
+§1§
+
 ## Profile
 
 | Director/Lead Scientist | Classified                                                                      |
@@ -32,6 +34,9 @@ Danube’s iconography often features minimalist, sleek designs with a recurring
 | Annual Budget           | Significant (Lanternyard-funded)                                                |
 | Active Research Fields  | Pretech archeology, high-risk experimental tech, deep-space exploration         |
 | Partnerships            | Lanternyard Inc., Archivo Urkantone (indirectly), various black-market entities |
+
+§§
+
 
 ---
 
@@ -46,7 +51,7 @@ Their history is rife with controversy, including allegations of corporate espio
 ## Philosophy
 
 **"The future is written in the relics of the past."**  
-Danube’s philosophy revolves around leveraging ancient knowledge for modern innovation. While they claim to honor the legacy of the civilizations that built the Jetgates, their methods often prioritize progress over ethical considerations.
+Danube’s philosophy §1§revolves around leveraging ancient knowledge for modern innovation§§. While they claim to honor the legacy of the civilizations that built the Jetgates, their methods often prioritize progress over ethical considerations.
 
 ---
 
@@ -67,12 +72,12 @@ Danube’s philosophy revolves around leveraging ancient knowledge for modern in
 **Leader(s)**: Unknown  
 **Prominent Members**: Anonymous agents embedded across the galaxy
 
-Danube operates in a decentralized manner, using covert teams, black-site labs, and proxies to avoid scrutiny. This structure allows them to conduct high-risk, high-reward research without jeopardizing their official operations.
+Danube operates §1§in a decentralized manner, using covert teams, §2§black-site labs§§, and proxies to avoid scrutiny§§. This structure allows them to conduct high-risk, high-reward research without jeopardizing their official operations.
 
 ---
 
 ## Resources and Methods
-
+§1§
 ### Resources
 
 | Resource                   | Description                                       | Origin                       | Use                                                 |
@@ -84,6 +89,9 @@ Danube operates in a decentralized manner, using covert teams, black-site labs, 
 In the early days of Lanternyard, a Danube Agent uncovered a data cache of unknown origin in the Alpha Centauri system. They found this cache on an asteroid that was being mined by Lanternyard for its resources. Given their involvement, the two groups struck a deal which supplied Danube with funding, and Lanternyard with the information contained in the artifact.
 
 Later dubbed the "Centauri Disc", it contained a schematic of Alien drive technology. This jump-started Lanternyard's Enterprise into Jetgate Travel.
+
+
+§2§
 
 #### Black-Sites
 List of Danube Black Sites:
@@ -100,6 +108,10 @@ List of Danube Black Sites:
 | [[Potekhin System\|Harlow, Potekhin]]<br>"Fairy" Site 061               | Technological Development Site. Including Trans-Realitiistic Computing, Biotech processors and Faith-Based Hardware Components.                               |
 | [[Teena System\|Amoria, Teena]]<br>"Zagreus" Site 008                   | Creation of Jetgate Navigators                                                                                                                                |
 | [[Mitera System\|Hesiod, Mitera]] "Tunnel" Site 143                     | Time Travel using Astral Projections of Animals                                                                                                               |
+
+§§
+
+§§
 
 ---
 

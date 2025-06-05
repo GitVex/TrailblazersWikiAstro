@@ -13,6 +13,7 @@ import {getSlugMap} from "./plugins/util/remarkOfWikiLinks-utils.ts";
 import slugify from "voca/slugify";
 
 import tailwindcss from '@tailwindcss/vite';
+import {remarkRedactionsPlugin} from "./plugins/remarkRedactions.ts";
 
 // Build Route Map for wiki links
 const slugMap = getSlugMap();
@@ -24,11 +25,11 @@ export default defineConfig({
 
     markdown: {
         remarkPlugins: [
-            [remarkASTLogger, { index: 1 }],
+            // [remarkASTLogger, { index: 1 }],
 
             setDefaultLayout,
 
-            [remarkASTLogger, { index: 2 }],
+            // [remarkASTLogger, { index: 2 }],
 
             // If wikilinks don't update, set aliasDivider to some other string. This will update the wikilinks.
             // CHANGING THE ALIAS DIVIDER WILL NOT CHANGE BEHAVIOUR.
@@ -44,6 +45,10 @@ export default defineConfig({
             remarkOfMediaLinksPlugin,
 
             //[remarkASTLogger, { index: 4 }]
+
+            remarkRedactionsPlugin,
+
+            [remarkASTLogger, { index: 5 }]
         ]
 
     },

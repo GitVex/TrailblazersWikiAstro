@@ -43,28 +43,31 @@ async function buildTree() {
 const tree = await buildTree();
 ---
 
-<div class="explorer ml-5 my-5">
-    <nav>
-        <ul class="overflow-x-hidden">
-            {Object.entries(tree).map(([key, value]) => {
-                if (Array.isArray(value)) {
-                    return (
-                            <li class="file-label">
-                                <a href={slugMap[key].route}>{slugMap[key].name}</a>
-                            </li>
-                    );
-                } else {
-                    return (
-                            <ExplorerItem
-                                    client:only="preact"
-                                    name={key}
-                                    items={value}
-                                    path={'/' + key}
-                                    slugMap={slugMap}
-                            />
-                    );
-                }
-            })}
-        </ul>
-    </nav>
+<div class="explorer ml-5 h-full">
+    <div class="my-20 h-full">
+        <p class="text-2xl">Explorer</p>
+        <nav class="overflow-y-scroll max-h-[80%]">
+            <ul class="overflow-x-hidden">
+                {Object.entries(tree).map(([key, value]) => {
+                    if (Array.isArray(value)) {
+                        return (
+                                <li class="file-label">
+                                    <a href={slugMap[key].route}>{slugMap[key].name}</a>
+                                </li>
+                        );
+                    } else {
+                        return (
+                                <ExplorerItem
+                                        client:only="preact"
+                                        name={key}
+                                        items={value}
+                                        path={'/' + key}
+                                        slugMap={slugMap}
+                                />
+                        );
+                    }
+                })}
+            </ul>
+        </nav>
+    </div>
 </div>
