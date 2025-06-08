@@ -1,36 +1,32 @@
 // @ts-check
 import {defineConfig} from 'astro/config';
-
-// import tailwind from '@astrojs/tailwind';
-import {setDefaultLayout} from "./plugins/defaultLayouts-plugin.mjs";
+import {setDefaultLayout} from "./plugins/remark/defaultLayouts-plugin.mjs";
 
 import preact from '@astrojs/preact';
-import {remarkOfWikilinksPlugin} from "./plugins/remarkOfWikilinks.ts";
-import {remarkOfMediaLinksPlugin} from "./plugins/remarkOfMediaLinks.ts";
-import {remarkASTLogger} from "./plugins/util/remarkASTLogger.ts";
-import {getSlugMap} from "./plugins/util/remarkOfWikiLinks-utils.ts";
+import { Fragment, h } from 'preact';
+import {remarkOfWikilinksPlugin} from "./plugins/remark/remarkOfWikilinks.ts";
+import {remarkOfMediaLinksPlugin} from "./plugins/remark/remarkOfMediaLinks.ts";
+import {getSlugMap} from "./plugins/remark/util/remarkOfWikiLinks-utils.ts";
 import slugify from "voca/slugify";
 
 import tailwindcss from '@tailwindcss/vite';
-import {remarkRedactionsPlugin} from "./plugins/remarkRedactions.ts";
+import {remarkRedactionsPlugin} from "./plugins/remark/remarkRedactions.ts";
+import {ASTLogger} from "./plugins/util/ASTLogger.ts";
+import rehypeReact from "rehype-react";
+import {InlineRedaction} from "./src/components/Article/InlineRedaction";
 
 // Build Route Map for wiki links
 const slugMap = getSlugMap();
-// console.log(slugToRoute);
 
 // https://astro.build/config
 export default defineConfig({
-    integrations: [preact()],
+    integrations: [preact({compat: true})],
 
     markdown: {
         remarkPlugins: [
-            // [remarkASTLogger, { index: 1 }],
-
+            //@ts-ignore
             setDefaultLayout,
-
-            // [remarkASTLogger, { index: 2 }],
-
-            // If wikilinks don't update, set aliasDivider to some other string. This will update the wikilinks.
+            // To update the mdast / run the processor again, set aliasDivider to some other string. This will update the wikilinks.
             // CHANGING THE ALIAS DIVIDER WILL NOT CHANGE BEHAVIOUR.
             [remarkOfWikilinksPlugin, {
                 aliasDivider: 'b',
@@ -38,16 +34,20 @@ export default defineConfig({
                 hrefTemplate: (slug: string) => hrefTemplate(slug),
                 slugMap
             }],
-
-            //[remarkASTLogger, { index: 3 }],
-
             remarkOfMediaLinksPlugin,
-
-            //[remarkASTLogger, { index: 4 }]
-
             remarkRedactionsPlugin,
-
-            [remarkASTLogger, { index: 5 }]
+            //@ts-ignore
+            [ASTLogger, {index: 5}]
+        ],
+        rehypePlugins: [
+            // [ASTLogger, {index: 1}]
+            [rehypeReact, {
+                createElement: h,
+                Fragment,
+                components: {
+                    'inline-redaction': InlineRedaction
+                }
+            }]
         ]
 
     },
@@ -56,6 +56,7 @@ export default defineConfig({
         plugins: [tailwindcss()]
     }
 });
+
 
 export function pageResolver(name: string) {
     // console.log('name', name);

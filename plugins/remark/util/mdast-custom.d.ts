@@ -1,8 +1,7 @@
 // mdast-custom.d.ts
 
-import type {Parent} from 'unist';
+import type {Node, Parent} from 'unist';
 import type {Literal, PhrasingContent} from "mdast"; // Or `import type { Literal } from 'mdast'` if more appropriate
-import type {Node} from 'unist';
 
 /**
  * Interface for your custom 'redaction' MDAST node.
@@ -12,12 +11,14 @@ export interface RedactionNode extends Parent {
     type: 'redaction';
     level: number;   // The redaction level
     children: Node[]; // The original content that is redacted
+    data: { hName: string }
 }
 
 export interface InlineRedactionNode extends Literal {
     type: 'inlineRedaction';
     level: number;
     children: PhrasingContent[];
+    data: { hName: string }
 }
 
 // Augment the 'mdast' module to make it aware of 'RedactionNode'
@@ -28,10 +29,11 @@ declare module 'mdast' {
      * 'redaction' is a valid inline content type.
      */
     interface RootContentMap {
-        redaction: RedactionNode; // map 'redaction' type string to RedactionNode interface
+        redaction: RedactionNode,
+        inlineRedaction: InlineRedactionNode
     }
 
-    interface PhrasingContentMap{
+    interface PhrasingContentMap {
         inlineRedaction: InlineRedactionNode
     }
 }

@@ -2,7 +2,7 @@
 import './styles/Explorer.scss'
 import '../styles/global.css'
 import {getCollection} from "astro:content";
-import {filePathToSlug, getSlugMap} from "../../plugins/util/remarkOfWikiLinks-utils";
+import {filePathToSlug, getSlugMap} from "../../plugins/remark/util/remarkOfWikiLinks-utils";
 import ExplorerItem from "./ExplorerItem.tsx";
 
 const slugMap = getSlugMap();

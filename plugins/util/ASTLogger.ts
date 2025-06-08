@@ -8,7 +8,7 @@ import {VFile} from "vfile";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export function remarkASTLogger(options?: { incremental?: boolean, index: number }) {
+export function ASTLogger(options?: { incremental?: boolean, index: number }) {
     return (tree: any, file: VFile) => {
         // get the current article title
         let title = file?.basename
@@ -18,7 +18,6 @@ export function remarkASTLogger(options?: { incremental?: boolean, index: number
 
         const fileName = `${title}_debug_tree_${options?.index}.md.ast.json`
 
-
         // Define the file path where you want to save the AST
         const filePath = path.join(__dirname, 'AST_logs', fileName);
 
@@ -27,6 +26,5 @@ export function remarkASTLogger(options?: { incremental?: boolean, index: number
 
         console.log(`AST logged to ${filePath}`);
 
-        return tree;
     };
 }

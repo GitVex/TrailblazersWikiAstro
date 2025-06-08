@@ -19,9 +19,15 @@ blockquote {
   border-left: 4px solid #6e28e6;
 }
 
+inline-redaction {
+  color: black;
+  background-color: black;
+}
+
 p {
   margin-top: 1rem;
   margin-bottom: 1rem;
+  display: inline-block;
 }
 
 img {

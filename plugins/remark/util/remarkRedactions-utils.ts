@@ -31,7 +31,10 @@ export function parseInlineRedactionContent(text: string, file: VFile): Phrasing
         nodes.push({
             type: 'inlineRedaction',
             level: level,
-            children: parsedInnerContent.length > 0 ? parsedInnerContent : [{type: 'text', value: '[REDACTED]'}]
+            children: parsedInnerContent.length > 0 ? parsedInnerContent : [{type: 'text', value: '[REDACTED]'}],
+            data: {
+                hName: 'inline-redaction'
+            }
         } as InlineRedactionNode);
 
         lastIndex = inlineRegex.lastIndex;
