@@ -10,13 +10,16 @@ export async function getStaticPaths() {
     const allContent = await getCollection("content");
     const slugMap = getSlugMap();
 
-    return allContent.map((content) => {
+    let warns = 0
+
+    const routes = allContent.map((content) => {
         let slug = content.id.split('/').slice(-1)[0];
         let route = slugMap[slug]?.route;
 
         if (!route) {
             const candidate = search(slug, Object.keys(slugMap))[0];
-            console.warn(`[WARN] No route found for slug: ${slug} - candidate: ${candidate}`);
+            // console.warn(`[WARN] No route found for slug: ${slug} - candidate: ${candidate}`);
+            warns++;
             route = slugMap[candidate]?.route;
             slug = candidate;
         }
@@ -33,6 +36,10 @@ export async function getStaticPaths() {
             props: {content, title: slugInfo.name},
         };
     }).filter(Boolean); // Filter out null entries
+
+    console.warn(`[WARN] Replaced ${warns} slug routes with a fuzzy candidate.`);
+
+    return routes
 }
 
 const {content, title} = Astro.props as { content: CollectionEntry<"content"> };

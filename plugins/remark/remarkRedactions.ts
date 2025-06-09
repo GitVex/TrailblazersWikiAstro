@@ -46,10 +46,12 @@ export const remarkRedactionsPlugin: Plugin<[], Root> = () => {
                 const level = parseInt(levelStr, 10);
                 return {
                     type: 'inlineRedaction',
-                    level: level,
                     children: parseInlineRedactionContent(content, file),
                     data: {
-                        hName: 'inline-redaction'
+                        hName: 'inline-redaction',
+                        hProperties: {
+                            level: level
+                        }
                     }
                 } as InlineRedactionNode;
             }
@@ -132,10 +134,12 @@ export const remarkRedactionsPlugin: Plugin<[], Root> = () => {
             // Construct the new node
             const redactionNode: RedactionNode = {
                 type: 'redaction',
-                level,
                 children: processedContent,
                 data: {
-                    hName: 'block-redaction'
+                    hName: 'block-redaction',
+                    hProperties: {
+                        level: level
+                    }
                 }
             };
 

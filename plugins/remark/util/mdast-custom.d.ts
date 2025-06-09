@@ -9,16 +9,22 @@ import type {Literal, PhrasingContent} from "mdast"; // Or `import type { Litera
  */
 export interface RedactionNode extends Parent {
     type: 'redaction';
-    level: number;   // The redaction level
     children: Node[]; // The original content that is redacted
-    data: { hName: string }
+    data: {
+        hName: string, hProperties: {
+            level: number;
+        }
+    }
 }
 
 export interface InlineRedactionNode extends Literal {
     type: 'inlineRedaction';
-    level: number;
     children: PhrasingContent[];
-    data: { hName: string }
+    data: {
+        hName: string, hProperties: {
+            level: number;
+        }
+    }
 }
 
 // Augment the 'mdast' module to make it aware of 'RedactionNode'
