@@ -1,14 +1,23 @@
 // BaseLayout.scss
 
+/* Base Styles */
+html {
+  // Potentially add base html styles here if any
+}
 
-.explorer-wrapper {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow-y: auto;
+body {
+  // Potentially add base body styles here if any
+}
 
-  background: url("/noise.png") repeat, #040404;
-  background-blend-mode: soft-light;
+/* Typography */
+p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  // display: inline-block;
+}
+
+.redacted {
+  color: black;
 }
 
 blockquote {
@@ -19,18 +28,37 @@ blockquote {
   border-left: 4px solid #6e28e6;
 }
 
-p {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  // display: inline-block;
-}
-
+/* Media and Images */
 img {
   max-width: 100%;
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
 
+/* Layout Specific */
+.explorer-wrapper {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+
+  background: url("/noise.png") repeat, #040404;
+  background-blend-mode: soft-light;
+}
+
+/*noinspection CssUnknownTarget*/
+#file_baselayout {
+  /* Gradient from bottom left to top right, with colors from #00041B to #000000 to #13001E */
+  // background: linear-gradient(-135deg, #00020F, #000000, #0A000F);
+  color: #eef5ff;
+  background-color: #1a1a1a;
+
+  & > .redaction > p {
+    color: #000000;
+  }
+}
+
+/* Components */
 .internal[href] {
   color: #9356fb;
 
@@ -85,12 +113,4 @@ tr:nth-child(even) {
 tr:hover {
   background-color: rgba(255, 255, 255, 0.1); /* Highlight on hover */
   transition: background-color 0.3s ease;
-}
-
-/*noinspection CssUnknownTarget*/
-#file_baselayout {
-  /* Gradient from bottom left to top right, with colors from #00041B to #000000 to #13001E */
-  /* background: linear-gradient(-135deg, #00020F, #000000, #0A000F); */
-  color: #eef5ff;
-  background-color: #1a1a1a;
 }

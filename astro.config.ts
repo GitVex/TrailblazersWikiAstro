@@ -7,8 +7,6 @@ import {remarkOfMediaLinksPlugin} from "./plugins/remark/remarkOfMediaLinks.ts";
 import {getSlugMap} from "./plugins/remark/util/remarkOfWikiLinks-utils.ts";
 import slugify from "voca/slugify";
 import tailwindcss from '@tailwindcss/vite';
-import {ASTLogger} from "./plugins/util/ASTLogger.ts";
-import mdx from "@astrojs/mdx";
 import {remarkRedactionsPlugin} from "./plugins/remark/remarkRedactions.ts";
 
 // Build Route Map for wiki links
@@ -21,7 +19,7 @@ const plugins: any = {
         // To update the mdast / run the processor again, set aliasDivider to some other string. This will update the wikilinks.
         // CHANGING THE ALIAS DIVIDER WILL NOT CHANGE BEHAVIOUR.
         [remarkOfWikilinksPlugin, {
-            aliasDivider: 'a',
+            aliasDivider: 'b',
             pageResolver: (name: string) => pageResolver(name),
             hrefTemplate: (slug: string) => hrefTemplate(slug),
             slugMap

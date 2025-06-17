@@ -21,7 +21,7 @@ elevatedUsers:
 
 ## Profile 
 
-The Unified Planets of Sol were the original human government that formed from Earth and its Colonies. Through History it has gone through many changes, through internal and external struggles which have shaped it into the bureaucratic Behemoth it is today. Once spanning most of the Galaxy, the space that is now under unified planet jurisdiction focuses on the galactic South and East.
+The Unified Planets of Sol were the original human §1§government that formed from Earth and its Colonies.§§ Through History it has gone through many changes, through internal and external struggles which have shaped it into the bureaucratic Behemoth it is today. Once spanning most of the Galaxy, the space that is now under unified planet jurisdiction focuses on the galactic South and East.
 
 It offers its citizens a lush quality of life over many worlds, though its ideology sometimes clashes with minority groups on both a diplomatic and sometimes even a military level.
 

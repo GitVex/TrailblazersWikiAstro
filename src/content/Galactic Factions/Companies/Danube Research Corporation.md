@@ -1,10 +1,10 @@
 ---
 aliases:
   - Danube Research Corp.
-allowedUsers:
-  - "Nils", "Tim"
+allowedUsers: Nils, Tim
 elevatedUsers:
-  - {"Nils": 1}
+    Nils: 1
+    Tim: 2
 ---
 
 # Group: Danube Research Corporation

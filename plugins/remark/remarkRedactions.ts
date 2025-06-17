@@ -65,7 +65,7 @@ export const remarkRedactionsPlugin: Plugin<[], Root> = () => {
             // If a node is just a start marker, we can push it onto the stack
             if (REDACTION_START.test(node.value)) {
                 const match = REDACTION_START.exec(node.value.trim());
-                const level = parseInt(match?.[0] ?? '0')
+                const level = parseInt(match?.[1] ?? '0', 10)
 
                 // current node parent under root
                 const parent = ancestors[1];
@@ -130,6 +130,8 @@ export const remarkRedactionsPlugin: Plugin<[], Root> = () => {
 
             const tempRoot = {type: 'root', children: content} as Root;
             const processedContent = processTree(tempRoot, file).children;
+
+            // console.log('[REDACTIONS]', 'found level:', level)
 
             // Construct the new node
             const redactionNode: RedactionNode = {
