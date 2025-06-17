@@ -1,5 +1,4 @@
 import {isElevated} from "../stores/UserStateStore.ts";
-import type {elevatedUserList} from "../../../plugins/remark/util/remarkOfWikiLinks-utils.ts";
 import {Children, useEffect} from "preact/compat";
 import {useRef} from "preact/hooks";
 
@@ -8,9 +7,7 @@ interface RedactionProps {
     children: any;
 }
 
-function redactContent(elevated: boolean, level: number, content: any, depth = 0): any {
-    // console.log(depth, content)
-
+function redactContent(elevated: boolean, content: any): any {
     return Children.map(content, (child: any): any => {
         if (typeof child === 'string') {
             return elevated ? child : child.replace(/\S/g, '█');
@@ -22,7 +19,7 @@ function redactContent(elevated: boolean, level: number, content: any, depth = 0
                 ...child,
                 props: {
                     ...rest,
-                    children: redactContent(elevated, level, children, depth + 1)
+                    children: redactContent(elevated, children)
                 }
             };
         }
@@ -59,11 +56,9 @@ export function Redaction({children, level}: RedactionProps) {
     const elevatedUsers = JSON.parse(secinfo?.getAttribute('data-elevatedUsers') || '{}')
     const elevated = isElevated(elevatedUsers, level, true)
 
-    // console.log('Redaction', level, elevatedUsers, children)
-
     return (
         <div class={elevated ? "" : "redacted"} data-level={level} ref={selfRef}>
-            {redactContent(elevated, level, children)}
+            {redactContent(elevated, children)}
         </div>
     )
 }
