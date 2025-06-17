@@ -3,6 +3,9 @@ aliases:
   - UPoS
   - Unified Planets
 allowedUsers: all
+elevatedUsers:
+  Nils: 1
+  Tim: 2
 ---
 # Government: Unified Planets of Sol
 
@@ -76,7 +79,7 @@ Placeholder
 
 ![[Trailblazers Keynotes - Frame 1.jpg]]
 #### Unified Planets Navy
-During the Buildup to the [[First Gate War]] in 2318, A fleet of militia starships was scrapped together from the before almost exclusively civilian fleet of ships roaming human space. Against the what was then still considered just a collection of pirate syndicates, this was not enough for the clearly intentional arming of the imperial ships.
+During the Buildup to the [[First Gate War]] in 2318, §1§A fleet of militia warships§§ was scrapped together from the before almost exclusively civilian fleet of ships roaming human space. Against the what was then still considered just a collection of pirate syndicates, this was not enough for the clearly intentional arming of the imperial ships.
 The lesson was learned and by the start of the [[Second Gate War]] roughly 60 years later in 2389, both sides had an influential and galaxy spanning military projection force that was hard to look at when clashed together along the lines of today's demilitarized zone, the [[Serengeti Line]].
 The [[Unified Planets Navy|UPN]] boasts a roster of different starship models for fleet wide operations, while also being the vessel for any other branches of the military like the Unified Planets Army, Intelligence Bureau and others.
 ## Resources 

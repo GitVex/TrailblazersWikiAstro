@@ -1,8 +1,11 @@
 ---
 aliases:
   - Danube Research Corp.
+allowedUsers:
+  - "Nils", "Tim"
+elevatedUsers:
+  - {"Nils": 1}
 ---
-import {InlineRedaction} from "../../../components/Article/InlineRedaction.jsx";
 
 # Group: Danube Research Corporation
 
@@ -17,7 +20,7 @@ import {InlineRedaction} from "../../../components/Article/InlineRedaction.jsx";
 
 ### Iconography
 
-![Placeholder Iconography](https://publish-01.obsidian.md/access/36b98e212e9d73fe1bd4813f96b0fd71/z_Assets/Misc/ImagePlaceholder.png)  
+![Placeholder Iconography](https://publish-01.obsidian.md/access/36b98e212e9d73fe1bd4813f96b0fd71/z_Assets/Misc/ImagePlaceholder.png)
 [open outside](https://obsidianttrpgtutorials.com/z_Assets/Misc/ImagePlaceholder.png)
 
 Danube’s iconography often features minimalist, sleek designs with a recurring motif of a spiral—a symbol of infinite discovery.
@@ -52,7 +55,7 @@ Their history is rife with controversy, including allegations of corporate espio
 
 ## Philosophy
 
-**"The future is written in the relics of the past."**  
+**"The future is written in the relics of the past."**
 Danube’s philosophy §1§revolves around leveraging ancient knowledge for modern innovation§§. While they claim to honor the legacy of the civilizations that built the Jetgates, their methods often prioritize progress over ethical considerations.
 
 ---
@@ -71,7 +74,7 @@ Danube’s philosophy §1§revolves around leveraging ancient knowledge for mode
 ## Organization
 
 **Headquarters**: Classified, [[Fornax System|Area-112, Fornax]]
-**Leader(s)**: Unknown  
+**Leader(s)**: Unknown
 **Prominent Members**: Anonymous agents embedded across the galaxy
 
 Danube operates §1§in a decentralized manner, using covert teams, §2§black-site labs§§, and proxies to avoid scrutiny§§. This structure allows them to conduct high-risk, high-reward research without jeopardizing their official operations.

@@ -25,6 +25,8 @@
     "mdast-util-find-and-replace": "^3.0.2",
     "mdast-util-to-hast": "^13.2.0",
     "preact": "^10.26.8",
+    "preact-custom-element": "^4.3.0",
+    "preactement": "^1.9.0",
     "rehype-react": "^8.0.0",
     "remark-gfm": "^4.0.0",
     "remark-wiki-link": "^2.0.1",
@@ -36,6 +38,7 @@
     "voca": "^1.4.1"
   },
   "devDependencies": {
+    "@types/preact-custom-element": "^4.0.4",
     "@types/voca": "^1.4.6"
   }
 }

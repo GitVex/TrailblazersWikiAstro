@@ -29,13 +29,13 @@ const plugins: any = {
         remarkOfMediaLinksPlugin,
         remarkRedactionsPlugin,
         //@ts-ignore
-        [ASTLogger, {index: 5}]
+        // [ASTLogger, {index: 5}]
     ],
 }
 
 // https://astro.build/config
 export default defineConfig({
-    integrations: [mdx(plugins), preact({compat: true})],
+    integrations: [preact({compat: true})],
 
     markdown: plugins,
 

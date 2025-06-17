@@ -1,5 +1,6 @@
 import { signal, effect } from '@preact/signals';
 import {userlist} from "../types.ts";
+import type { elevatedUserList} from "../../../plugins/remark/util/remarkOfWikiLinks-utils.ts";
 
 
 const initialUser = ''
@@ -44,4 +45,18 @@ export function isAuthed(allowedUsers: string[] | undefined) {
         return true
     }
     return allowedUsers.includes(user.value)
+}
+
+export function isElevated(elevatedUsers: elevatedUserList | undefined, elevationLevel: number, debug: boolean = false) {
+    const keys = Object.keys(elevatedUsers || {})
+
+    if (userlist.find(u => u.name === user.value)?.isAdmin) {
+        return !debug
+    } else if (!elevatedUsers ||  keys.length=== 0) {
+        return false
+    } else if (keys.includes('all')) {
+        return true
+    }
+
+    return (elevatedUsers[user.value] || 0) >= elevationLevel
 }

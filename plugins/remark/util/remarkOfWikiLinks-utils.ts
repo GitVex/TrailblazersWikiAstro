@@ -10,14 +10,20 @@ import slugify from "voca/slugify";
 import remarkGfm from "remark-gfm"
 import matter from "gray-matter"
 
+
+export type elevatedUserList = Record<string, number>
+
+export type allowedUserList = string[];
+
 /**
  * Interface representing information about a slug.
  */
-interface SlugInfo {
+export interface SlugInfo {
     name: string;
     route: string;
     filePath: string;
-    allowedUsers?: string[];
+    allowedUsers?: allowedUserList
+    elevatedUsers?: elevatedUserList
 }
 
 /**
@@ -37,14 +43,17 @@ export function getSlugMap(): SlugMap {
         const route = '/content/' + relativePath.split('\\').map(slugify).join('/').concat('/', slug)
 
         const fileContent = fs.readFileSync(filePath, 'utf-8');
-        const { data: frontmatter } = matter(fileContent);
+        const {data: frontmatter} = matter(fileContent);
         const allowedUsers = frontmatter.allowedUsers ? Array.of(frontmatter.allowedUsers) : [];
+        // if (frontmatter.elevatedUsers) console.log(frontmatter.elevatedUsers)
+        const elevatedUsers = frontmatter.elevatedUsers ?? {};
 
         slugMap[slug] = {
             name: path.basename(filePath, path.extname(filePath)),
             route: route,
             filePath: filePath,
-            allowedUsers: allowedUsers
+            allowedUsers: allowedUsers,
+            elevatedUsers: elevatedUsers,
         };
     }
 
