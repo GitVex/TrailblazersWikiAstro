@@ -15,6 +15,10 @@ function redactContent(elevated: boolean, content: any): any {
 
             const {children, ...rest} = child.props;
 
+            if (child.type === 'a' && rest.href) {
+                rest.href = '';
+            }
+
             return {
                 ...child,
                 props: {

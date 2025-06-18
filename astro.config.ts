@@ -8,6 +8,8 @@ import {getSlugMap} from "./plugins/remark/util/remarkOfWikiLinks-utils.ts";
 import slugify from "voca/slugify";
 import tailwindcss from '@tailwindcss/vite';
 import {remarkRedactionsPlugin} from "./plugins/remark/remarkRedactions.ts";
+import pagefind from "astro-pagefind";
+
 
 // Build Route Map for wiki links
 const slugMap = getSlugMap();
@@ -33,7 +35,10 @@ const plugins: any = {
 
 // https://astro.build/config
 export default defineConfig({
-    integrations: [preact({compat: true})],
+    build: {
+        format: "file",
+    },
+    integrations: [preact({compat: true}), pagefind()],
 
     markdown: plugins,
 

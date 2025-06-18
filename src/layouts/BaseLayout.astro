@@ -3,16 +3,8 @@ import './styles/BaseLayout.scss';
 import '../styles/global.css'
 import Explorer from "../components/Explorer.astro";
 import Login from "../components/Login";
-import {MDXProvider} from "@mdx-js/preact";
-import {InlineRedaction} from "../components/Article/InlineRedaction";
-import {Redaction} from "../components/Article/Redaction";
 
 const {title} = Astro.props;
-
-const mdxComponents = {
-    'inline-redaction': InlineRedaction,
-    'block-redaction': Redaction
-}
 ---
 
 <html>
@@ -42,15 +34,13 @@ const mdxComponents = {
 
         <div class="flex md:flex-col flex-1 min-h-[900px]">
             <!-- Main Content Section -->
-            <MDXProvider components={mdxComponents}>
-                <section class="w-[85%] px-10 border-[#585858] border-opacity-20 border-r-4 mb-20">
-                    <h1 style="color: #ffb022; font-size: 2.5rem; margin-bottom: 0">{title}</h1>
-                    <a href="/" style="opacity: .2;">Back to the Index</a>
-                    <div class="file-content">
-                        <slot/>
-                    </div>
-                </section>
-            </MDXProvider>
+            <section class="w-[85%] px-10 border-[#585858] border-opacity-20 border-r-4 mb-20">
+                <h1 style="color: #ffb022; font-size: 2.5rem; margin-bottom: 0">{title}</h1>
+                <a href="/" style="opacity: .2;">Back to the Index</a>
+                <div class="file-content">
+                    <slot/>
+                </div>
+            </section>
 
             <!-- Right Spacer -->
             <div class="md:w-[15%] md:h-[200px]"/>

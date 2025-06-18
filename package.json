@@ -17,6 +17,7 @@
     "@tailwindcss/vite": "^4.0.17",
     "@types/node": "^22.10.10",
     "astro": "^5.8.1",
+    "astro-pagefind": "^1.8.3",
     "canvas": "^3.1.0",
     "chokidar": "^4.0.3",
     "fast-fuzzy": "^1.12.0",
