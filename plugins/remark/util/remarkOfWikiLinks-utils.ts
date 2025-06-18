@@ -44,9 +44,12 @@ export function getSlugMap(): SlugMap {
 
         const fileContent = fs.readFileSync(filePath, 'utf-8');
         const {data: frontmatter} = matter(fileContent);
-        const allowedUsers = frontmatter.allowedUsers ? Array.of(frontmatter.allowedUsers) : [];
-        // if (frontmatter.elevatedUsers) console.log(frontmatter.elevatedUsers)
-        const elevatedUsers = frontmatter.elevatedUsers ?? {};
+        const allowedUsers = frontmatter.allowedUsers ?
+            frontmatter.allowedUsers.split(',').map((entry: string) => entry.trim())
+            :
+            [] as allowedUserList;
+        const elevatedUsers = frontmatter.elevatedUsers ?? {} as elevatedUserList;
+
 
         slugMap[slug] = {
             name: path.basename(filePath, path.extname(filePath)),

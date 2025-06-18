@@ -59,7 +59,7 @@ const frontmatter = {
 
 <main>
     <BaseLayout frontmatter={{frontmatter}}>
-        <Content client:only="preact" slug={slug} slugMap={slugMap}>
+        <Content client:only="preact" slug={slug} slugInfo={slugMap[slug]}>
             <Rendered/>
         </Content>
     </BaseLayout>

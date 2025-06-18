@@ -37,14 +37,15 @@ export function logoutUser() {
 }
 
 export function isAuthed(allowedUsers: string[] | undefined) {
-    if (userlist.find(u => u.name === user.value)?.isAdmin) {
+    if (userlist.find(u => u.name === user.value.trim())?.isAdmin) {
         return true
     } else if (!allowedUsers || allowedUsers.length === 0) {
         return false
     } else if (allowedUsers.includes('all')) {
         return true
     }
-    return allowedUsers.includes(user.value)
+    console.log("None of the above apply ... checking", user.value, "against", allowedUsers)
+    return allowedUsers.includes(user.value.trim())
 }
 
 export function isElevated(elevatedUsers: elevatedUserList | undefined, elevationLevel: number, debug: boolean = false) {
@@ -58,5 +59,5 @@ export function isElevated(elevatedUsers: elevatedUserList | undefined, elevatio
         return true
     }
 
-    return (elevatedUsers[user.value] || 0) >= elevationLevel
+    return (elevatedUsers[user.value] ?? 0) >= elevationLevel
 }

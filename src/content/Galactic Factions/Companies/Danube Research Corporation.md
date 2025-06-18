@@ -3,8 +3,8 @@ aliases:
   - Danube Research Corp.
 allowedUsers: Nils, Tim
 elevatedUsers:
-    Nils: 1
-    Tim: 2
+  Nils: 1
+  Tim: 2
 ---
 
 # Group: Danube Research Corporation

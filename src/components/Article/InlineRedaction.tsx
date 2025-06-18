@@ -36,7 +36,7 @@ export function InlineRedaction({children, level}: InlineRedactionProps) {
     // find metadata element from document root with id "secinfo"
     const secinfo = document.getElementById('secinfo');
     const elevatedUsers = JSON.parse(secinfo?.getAttribute('data-elevatedUsers') || '{}')
-    const elevated = isElevated(elevatedUsers, level, true)
+    const elevated = isElevated(elevatedUsers, level)
 
     return (
         <span class={elevated ? "" : "redacted"} ref={selfRef}>

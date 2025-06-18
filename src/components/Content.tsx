@@ -3,27 +3,26 @@ import {isAuthed} from "./stores/UserStateStore.ts";
 import register from 'preact-custom-element'
 import {InlineRedaction} from "./Article/InlineRedaction.tsx";
 import {Redaction} from "./Article/Redaction.tsx";
-import type {SlugMap} from "../../plugins/remark/util/remarkOfWikiLinks-utils.ts";
+import type {SlugInfo, SlugMap} from "../../plugins/remark/util/remarkOfWikiLinks-utils.ts";
 
 interface ContentProps {
     slug: string
-    slugMap: SlugMap,
+    slugInfo: SlugInfo,
     children?: any,
 }
-
-// define('inline-redaction', () => InlineRedaction)
-// define('block-redaction', () => Redaction)
 
 register(InlineRedaction, 'inline-redaction')
 register(Redaction, 'block-redaction')
 
 const Content: FunctionalComponent<ContentProps> = (props) => {
-    const {slug: key, slugMap, children} = props
+    const {slug: key, slugInfo, children} = props
 
-    return (isAuthed(slugMap[key]?.allowedUsers)) ? (
+    console.log(slugInfo)
+
+    return (isAuthed(slugInfo.allowedUsers)) ? (
         <div>
             {children}
-            <metadata id="secinfo" data-elevatedUsers={JSON.stringify(slugMap[key]?.elevatedUsers)}></metadata>
+            <metadata id="secinfo" data-elevatedUsers={JSON.stringify(slugInfo.elevatedUsers)}></metadata>
         </div>
     ) : (
         <p>Seems like you aren't suppose to see this ... yet.</p>

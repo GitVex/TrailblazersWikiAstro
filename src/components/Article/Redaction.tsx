@@ -54,7 +54,7 @@ export function Redaction({children, level}: RedactionProps) {
     // find metadata element from document root with id "secinfo"
     const secinfo = document.getElementById('secinfo');
     const elevatedUsers = JSON.parse(secinfo?.getAttribute('data-elevatedUsers') || '{}')
-    const elevated = isElevated(elevatedUsers, level, true)
+    const elevated = isElevated(elevatedUsers, level)
 
     return (
         <div class={elevated ? "" : "redacted"} data-level={level} ref={selfRef}>
