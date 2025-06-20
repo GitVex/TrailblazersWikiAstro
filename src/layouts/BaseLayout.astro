@@ -3,6 +3,8 @@ import './styles/BaseLayout.scss';
 import '../styles/global.css'
 import Explorer from "../components/Explorer.astro";
 import Login from "../components/Login";
+import Search from 'astro-pagefind/components/Search';
+
 
 const {title} = Astro.props;
 ---
@@ -21,6 +23,7 @@ const {title} = Astro.props;
         <div class="top-right w-[40%]">
             <Login client:only="preact"/>
         </div>
+        <Search/>
         <Explorer/>
     </div>
 

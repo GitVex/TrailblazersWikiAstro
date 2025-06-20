@@ -5,7 +5,7 @@
   "scripts": {
     "generate-noise": "npx tsx scripts/noise.ts",
     "dev": "astro dev",
-    "build": "generate-noise &&  astro build",
+    "build": "npm run generate-noise && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },

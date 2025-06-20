@@ -42,6 +42,7 @@ export async function getStaticPaths() {
     return routes
 }
 
+// @ts-ignore
 const {content, title} = Astro.props as { content: CollectionEntry<"content"> };
 // console.log(content)
 const slugMap = getSlugMap();
@@ -54,13 +55,19 @@ const frontmatter = {
     ...content.rendered?.metadata?.frontmatter,
     title
 }
-
 ---
 
-<main>
-    <BaseLayout frontmatter={{frontmatter}}>
+
+<BaseLayout frontmatter={{frontmatter}}>
+    <main>
         <Content client:only="preact" slug={slug} slugInfo={slugMap[slug]}>
             <Rendered/>
         </Content>
-    </BaseLayout>
-</main>
+
+
+        <div data-pagefind-body style="display: none;">
+            <Rendered/>
+        </div>
+    </main>
+</BaseLayout>
+

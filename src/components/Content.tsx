@@ -19,8 +19,8 @@ const Content: FunctionalComponent<ContentProps> = (props) => {
 
     console.log(slugInfo)
 
-    return (isAuthed(slugInfo.allowedUsers)) ? (
-        <div>
+    return isAuthed(slugInfo.allowedUsers) ? (
+        <div key={key}>
             {children}
             <metadata id="secinfo" data-elevatedUsers={JSON.stringify(slugInfo.elevatedUsers)}></metadata>
         </div>
