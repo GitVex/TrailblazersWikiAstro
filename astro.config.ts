@@ -8,7 +8,7 @@ import {getSlugMap} from "./plugins/remark/util/remarkOfWikiLinks-utils.ts";
 import slugify from "voca/slugify";
 import tailwindcss from '@tailwindcss/vite';
 import {remarkRedactionsPlugin} from "./plugins/remark/remarkRedactions.ts";
-import pagefind from "astro-pagefind";
+import pagefind from 'astro-pagefind';
 
 
 // Build Route Map for wiki links
